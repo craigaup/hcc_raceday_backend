@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Year:</strong>
+  <%= @raceadmin.year %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @raceadmin.user %>
+</p>
+
+<%= link_to 'Edit', edit_raceadmin_path(@raceadmin) %> |
+<%= link_to 'Back', raceadmins_path %>

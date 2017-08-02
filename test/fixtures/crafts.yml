@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  number: 1
+  year: 1
+  status: MyString
+  time: 
+  entered: 
+  user: one
+
+two:
+  number: 1
+  year: 1
+  status: MyString
+  time: 
+  entered: 
+  user: two

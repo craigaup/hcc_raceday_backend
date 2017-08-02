@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Key:</strong>
+  <%= @datum.key %>
+</p>
+
+<p>
+  <strong>Data:</strong>
+  <%= @datum.data %>
+</p>
+
+<p>
+  <strong>Time:</strong>
+  <%= @datum.time %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @datum.user %>
+</p>
+
+<%= link_to 'Edit', edit_datum_path(@datum) %> |
+<%= link_to 'Back', data_path %>

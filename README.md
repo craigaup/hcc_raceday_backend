@@ -22,3 +22,6 @@ Things you may want to cover:
 * Deployment instructions
 
 * ...
+
+
+Make sure to add a file in 'db/seeds/.userinitialpass.rb' there is a template of what it should look like in the directory

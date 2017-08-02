@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  year: 1
+  checkpoint: MyString
+  distance: MyString
+
+two:
+  year: 1
+  checkpoint: MyString
+  distance: MyString

@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Raceadmins</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Year</th>
+      <th>User</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @raceadmins.each do |raceadmin| %>
+      <tr>
+        <td><%= raceadmin.year %></td>
+        <td><%= raceadmin.user %></td>
+        <td><%= link_to 'Show', raceadmin %></td>
+        <td><%= link_to 'Edit', edit_raceadmin_path(raceadmin) %></td>
+        <td><%= link_to 'Destroy', raceadmin, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Raceadmin', new_raceadmin_path %>

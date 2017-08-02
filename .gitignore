@@ -27,3 +27,4 @@ vendor/bundle
 .~*
 
 public/assets
+db/seeds/.userinitialpass.rb

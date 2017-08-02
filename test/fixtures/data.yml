@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  key: MyString
+  data: MyString
+  time: 2017-07-31 18:09:30
+  user: one
+
+two:
+  key: MyString
+  data: MyString
+  time: 2017-07-31 18:09:30
+  user: two

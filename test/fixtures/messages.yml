@@ -1,0 +1,25 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  number: 1
+  to: MyString
+  from: MyString
+  message_time: 2017-07-31 06:24:46
+  priority: 1
+  message: MyString
+  displayed: 2017-07-31 06:24:46
+  validtil: 2017-07-31 06:24:46
+  user: one
+  entered: 2017-07-31 06:24:46
+
+two:
+  number: 1
+  to: MyString
+  from: MyString
+  message_time: 2017-07-31 06:24:46
+  priority: 1
+  message: MyString
+  displayed: 2017-07-31 06:24:46
+  validtil: 2017-07-31 06:24:46
+  user: two
+  entered: 2017-07-31 06:24:46

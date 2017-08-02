@@ -1,0 +1,22 @@
+distances = {
+  'ST': '0', 'A': '12.4', 'B': '17.9', 'C': '24.2', 'D': '31.2',
+  'E': '40.8', 'F': '47.4', 'G': '54', 'H': '59', 'I': '65', 'J': '71',
+  'K': '77', 'L': '81.6', 'PIT': '', 'M': '88.2', 'N': '93.5',
+  'SP': '98.5', 'O': '98.5', 'P': '102.5', 'Q': '106.2', 'S': '109.5',
+  'T': '110', 'FIN': '111',}
+
+checkpointNames = {'ST': 'Start', 'A': 'Alpha', 'B': 'Bravo', 'C': 'Charlie',
+                   'D': 'Delta', 'E': 'Echo', 'F': 'Foxtrot', 'G': 'Golf',
+                   'H': 'Hotel', 'I': 'India', 'J': 'Juliett', 'K': 'Kilo',
+                   'L': 'Lima', 'PIT': 'Pitstop', 'M': 'Mike', 'N': 'November',
+                   'O': 'Oscar', 'SP': 'Spencer', 'P': 'Papa', 'Q': 'Quebec',
+                   'S': 'Sierra', 'T': 'Tango', 'FIN': 'Finish'}
+
+distances.each do |checkpoint, distance|
+  if Distance.find_by(checkpoint: checkpoint) == nil then
+    longname = checkpointNames[checkpoint]
+    print "INFO: Creating checkpoint #{checkpoint} at distance #{distance}\n"
+    Distance.create(checkpoint: checkpoint, year: DateTime.now.year,
+                    distance: distance, longname: longname)
+  end
+end
