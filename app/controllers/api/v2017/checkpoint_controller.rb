@@ -17,7 +17,7 @@ class Api::V2017::CheckpointController < Api::V2017::ApplicationController
         && @current_user.isCheckpoint?
       newcraft.year = DateTime.now.year
       checkpoint = Distance.findCheckpointEntry(checkpointName, newcraft.year)
-      newcraft.checkpoint_id = checkpoint[0].id unless checkpoint.nil?
+      newcraft.checkpoint_id = checkpoint.id unless checkpoint.nil?
       newcraft.user_id = @current_user.id
       newcraft.entered = DateTime.now
       
