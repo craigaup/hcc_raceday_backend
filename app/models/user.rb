@@ -17,6 +17,11 @@ class User < ApplicationRecord
     end
   end
 
+  def isCheckpoint?
+    checkpoint = Distance.where('lower(longname) = lower(?)', username)
+    !checkpoint.nil?
+  end
+
   def clear_password
       self.password = nil
   end
