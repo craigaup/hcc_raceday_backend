@@ -6,7 +6,8 @@ class Distance < ApplicationRecord
       checkpoints.push({id: tmpdist.id,
                         shortname: tmpdist.checkpoint,
                         longname: tmpdist.longname,
-                        distance: tmpdist.distance})
+                        distance: tmpdist.distance,
+                        duesoonfrom: tmpdist.duesoonfrom})
     end
     checkpoints
   end

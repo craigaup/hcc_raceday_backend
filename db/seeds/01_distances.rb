@@ -12,11 +12,19 @@ checkpointNames = {'ST': 'Start', 'A': 'Alpha', 'B': 'Bravo', 'C': 'Charlie',
                    'O': 'Oscar', 'SP': 'Spencer', 'P': 'Papa', 'Q': 'Quebec',
                    'S': 'Sierra', 'T': 'Tango', 'FIN': 'Finish'}
 
+duesoonFrom = {'A': 'Start', 'B': 'A', 'C': 'B', 'D': 'C', 'E': 'D', 'F': 'E',
+               'G': 'F', 'H': 'G', 'I': 'H', 'J': 'I', 'K': 'J', 'L': 'K',
+               'M': 'L', 'N': 'M', 'SP': 'M', 'O': 'M', 'P': 'O', 'Q': 'P',
+               'S': 'Q', 'T': 'Q', 'FIN': 'Q'}
+
 distances.each do |checkpoint, distance|
   if Distance.find_by(checkpoint: checkpoint) == nil then
     longname = checkpointNames[checkpoint]
     print "INFO: Creating checkpoint #{checkpoint} at distance #{distance}\n"
+    duesoon = ''
+    duesoon = duesoonFrom[checkpoint] if duesoonFrom.key?(checkpoint)
     Distance.create(checkpoint: checkpoint, year: DateTime.now.year,
-                    distance: distance, longname: longname)
+                    distance: distance, longname: longname,
+                    duesoonfrom: duesoon)
   end
 end

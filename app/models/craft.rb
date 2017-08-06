@@ -29,6 +29,55 @@ class Craft < ApplicationRecord
     maxCanoeNumber.last.data.to_i
   end
   
+  def self.getHistory(canoeNumber, year = DateTime.now.year)
+    lastseen = {}
+    Craft.where('year = ?', year).order(:entered).each do |canoe|
+      next if canoeNumber != '' && canoe.number.to_s != canoeNumber.to_s
+      number = canoe.number
+      checkpointName = canoe.checkpoint.longname
+
+      if !lastseen.key?(number)
+        lastseen[number] = {}
+      end
+
+      if !lastseen[number].key?(checkpointName)
+        lastseen[number][checkpointName] = []
+      end
+      lastseen[number][checkpointName].push({ number: number,
+                                              checkpoint: checkpointName,
+                                              status: canoe.status,
+                                              time: canoe.time})
+    end
+    lastseen
+  end
+
+  def self.getCheckpointHistory(checkpointName, year = DateTime.now.year)
+    checkpointinfo = Distance.findCheckpointEntry(checkpointName, year)
+
+    lastseen = { duesoonlist: {}, checkpointlist: {}, overduelist: {} }
+    return lastseen if checkpointinfo.nil?
+
+    duesooncheckpoint = checkpointinfo.duesoonfrom
+    distance = checkpointinfo.distance
+    Craft.where('year = ? and checkpoint_id = ?', year, checkpointinfo.id).each do |canoe|
+      number = canoe.number
+      if lastseen[:checkpointlist].key?(number)
+        # Need to make sure if entered time is greater than last entry
+        # and if so next
+      end
+      lastseen[:checkpointlist][number] = { number: canoe.number,
+                                             status: canoe.status,
+                                             time: canoe.time,
+                                             entered: canoe.entered,
+                                             checkpoint: canoe.checkpoint.longname }
+    end
+
+#    if duesooncheckpoint
+    lastseen
+
+  end
+
+  private
   def checkCanoeNumberValue(year = DateTime.now.year)
     minCanoeNumber = Craft.findMinCanoeNumber
     maxCanoeNumber = Craft.findMaxCanoeNumber

@@ -1,15 +1,14 @@
 Rails.application.routes.draw do
   namespace :api do
     namespace :v2017 do
-      get 'data/getCheckpointInfo' => 'data@getCheckpointInfo'
-      get 'data/getFirstCanoeNumber' => 'data@getFirstCanoeNumber'
-      get 'data/getLastCanoeNumber' => 'data@getLastCanoeNumber'
-      get 'data/getCanoeStatusInfo' => 'data@getCheckpointInfo'
-      post 'checkpoint/sendCanoe' => 'checkpoint#sendCanoe'
-      post 'checkpoint/sendMessage' => 'checkpoint#sendMessage'
-      get 'checkpoint/getAllHistory' => 'checkpoint#getAllHistory'
-      post 'session/login' => 'session#login'
-      get 'session/logout' => 'session#logout'
+      get 'canoes/first', to: 'canoes#first'
+      get 'canoes/last', to: 'canoes#last'
+      post 'canoes/:number/:status/:checkpoint/:date_time', to: 'canoes#add'
+      get 'canoes/:number/history', to: 'canoes#history'
+      post 'checkpoints/sendCanoe', to: 'checkpoints#sendCanoe'
+      get 'checkpoints/info', to: 'checkpoints#info'
+      post 'session/login', to: 'session#login'
+      get 'session/logout', to: 'session#logout'
     end
   end
 

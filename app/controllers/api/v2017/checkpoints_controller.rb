@@ -1,5 +1,11 @@
-class Api::V2017::CheckpointController < Api::V2017::ApplicationController
-  before_action :authenticate_user
+class Api::V2017::CheckpointsController < Api::V2017::ApplicationController
+  before_action :authenticate_user, except: [:info]
+
+  def info
+    checkpoints = Distance.getAllCheckpointInformation
+    render json: checkpoints, status: 200
+  end
+
 
   def sendCanoe
     output = {}
@@ -40,6 +46,6 @@ class Api::V2017::CheckpointController < Api::V2017::ApplicationController
   def history
   end
 
-  def sendMessage
+  def historyAll
   end
 end
