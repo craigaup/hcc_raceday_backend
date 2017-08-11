@@ -12,7 +12,7 @@ checkpointNames = {'ST': 'Start', 'A': 'Alpha', 'B': 'Bravo', 'C': 'Charlie',
                    'O': 'Oscar', 'SP': 'Spencer', 'P': 'Papa', 'Q': 'Quebec',
                    'S': 'Sierra', 'T': 'Tango', 'FIN': 'Finish'}
 
-duesoonFrom = {'A': 'Start', 'B': 'A', 'C': 'B', 'D': 'C', 'E': 'D', 'F': 'E',
+duesoonFrom = {'A': 'ST', 'B': 'A', 'C': 'B', 'D': 'C', 'E': 'D', 'F': 'E',
                'G': 'F', 'H': 'G', 'I': 'H', 'J': 'I', 'K': 'J', 'L': 'K',
                'M': 'L', 'N': 'M', 'SP': 'M', 'O': 'M', 'P': 'O', 'Q': 'P',
                'S': 'Q', 'T': 'Q', 'FIN': 'Q'}
