@@ -35,7 +35,8 @@ class Craft < ApplicationRecord
       next if canoeNumber != '' && canoe.number.to_s != canoeNumber.to_s
       number = canoe.number
       checkpointName = canoe.checkpoint.longname
-
+      distance = (canoe.checkpoint.distance * 1000).round(0).to_i
+ 
       if !lastseen.key?(number)
         lastseen[number] = {}
       end
@@ -46,35 +47,162 @@ class Craft < ApplicationRecord
       lastseen[number][checkpointName].push({ number: number,
                                               checkpoint: checkpointName,
                                               status: canoe.status,
-                                              time: canoe.time})
+                                              time: canoe.time,
+                                              distance: distance})
     end
     lastseen
   end
 
-  def self.getCheckpointHistory(checkpointName, year = DateTime.now.year)
-    checkpointinfo = Distance.findCheckpointEntry(checkpointName, year)
+#   def self.getCheckpointHistory(checkpointName, year = DateTime.now.year)
+#     #checkpointinfo = Distance.findCheckpointEntry(checkpointName, year)
+# 
+#     #lastseen = { duesoonlist: {}, checkpointlist: {}, overduelist: {} }
+#     #return lastseen if checkpointinfo.nil?
+# 
+#     #duesooncheckpoint = checkpointinfo.duesoonfrom
+#     #distance = checkpointinfo.distance
+#     seen = {}
+#     checkpoints = {}
+#     lastseen = {}
+# 
+#     Craft.where('year = ?', year).order(:entered).each do |canoe|
+#       number = canoe.number
+#       checkpointName = canoe.checkpoint.longname
+#       distance = (canoe.checkpoint.distance.to_f * 1000).round(0).to_i
+#       if !seen.key?(checkpointName)
+#         seen[checkpointName] = {}
+#         checkpoints[checkpointName] = distance
+#       end
+# 
+#       lastseen[number] = checkpointName
+#       seen[checkpointName][number] = { number: number,
+#                                        checkpoint: checkpointName,
+#                                        status: canoe.status,
+#                                        time: canoe.time,
+#                                        distance: distance}
+# 
+#       checkpoints.each do |tmpname, tmpdistance|
+#         next if seen[tmpname].key?(number)
+#         next if checkpointName == tmpname
+#         next if distance < tmpdistance
+# 
+#         seen[tmpname][number] = { number: number,
+#                                   checkpoint: tmpname,
+#                                   status: 'OUT',
+#                                   time: nil,
+#                                   distance: tmpdistance}
+#       end
+#     end
+#     seen
+#   end
 
-    lastseen = { duesoonlist: {}, checkpointlist: {}, overduelist: {} }
-    return lastseen if checkpointinfo.nil?
+  def self.getAllCheckpointHistory(checkpointName, year = DateTime.now.year)
+    #checkpointinfo = Distance.findCheckpointEntry(checkpointName, year)
 
-    duesooncheckpoint = checkpointinfo.duesoonfrom
-    distance = checkpointinfo.distance
-    Craft.where('year = ? and checkpoint_id = ?', year, checkpointinfo.id).each do |canoe|
+    #lastseen = { duesoonlist: {}, checkpointlist: {}, overduelist: {} }
+    #return lastseen if checkpointinfo.nil?
+
+    #duesooncheckpoint = checkpointinfo.duesoonfrom
+    #distance = checkpointinfo.distance
+    seen = {}
+    checkpoints = {}
+    lastseen = {}
+
+    Craft.where('year = ?', year).order(:entered).each do |canoe|
       number = canoe.number
-      if lastseen[:checkpointlist].key?(number)
-        # Need to make sure if entered time is greater than last entry
-        # and if so next
+      checkpointName = canoe.checkpoint.longname
+      distance = (canoe.checkpoint.distance.to_f * 1000).round(0).to_i
+      if !seen.key?(checkpointName)
+        seen[checkpointName] = {}
+        checkpoints[checkpointName] = distance
       end
-      lastseen[:checkpointlist][number] = { number: canoe.number,
-                                             status: canoe.status,
-                                             time: canoe.time,
-                                             entered: canoe.entered,
-                                             checkpoint: canoe.checkpoint.longname }
+
+      lastseen[number] = checkpointName
+      seen[checkpointName][number] = { number: number,
+                                       checkpoint: checkpointName,
+                                       status: canoe.status,
+                                       time: canoe.time,
+                                       distance: distance}
+
+      checkpoints.each do |tmpname, tmpdistance|
+        next if seen[tmpname].key?(number)
+        next if checkpointName == tmpname
+        next if distance < tmpdistance
+
+        seen[tmpname][number] = { number: number,
+                                  checkpoint: tmpname,
+                                  status: 'OUT',
+                                  time: nil,
+                                  distance: tmpdistance}
+      end
+    end
+    seen
+  end
+
+  def self.getCheckpointInformation(checkpointName, year = DateTime.now.year)
+    checkpointInfo = Distance.findCheckpointEntry(checkpointName, year)
+    prevCheckpointInfo = nil
+    if checkpointInfo.duesoonfrom != ''
+      prevCheckpointInfo = Distance.findCheckpointEntry(
+        checkpointInfo.duesoonfrom, year)
     end
 
-#    if duesooncheckpoint
-    lastseen
+    canoes = []
+    Craft.where('year = ?', year).order(:entered).each do |canoe|
+      number = canoe.number
+      if canoe.checkpoint_id == checkpointInfo.id && canoe.status == 'IN'
+        canoes[number] = {
+          'status' => 'IN',
+          'time' => canoe.time
+        }
+        next
+      end
 
+      if !prevCheckpointInfo.nil? && canoe.checkpoint_id == prevCheckpointInfo.id && canoe.status == 'OUT'
+        canoes[number] = {
+          'status' => 'Due Soon',
+          'time' => canoe.time
+        }
+        next
+      end
+
+      if canoe.status == 'DNS'
+        canoes[number] = {
+          'status' => canoe.status,
+          'time' => canoe.time
+        }
+        next
+      end
+
+      if canoe.status == 'WD' && canoe.checkpoint.distance.to_f <= checkpointInfo.distance.to_f
+        canoes[number] = {
+          'status' => canoe.status + ' ' + canoe.checkpoint.checkpoint,
+          'time' => canoe.time
+        }
+
+        next
+      end
+
+      if ( canoes[number].nil? || canoes[number]['status'] == 'Due Soon') 
+        if canoe.checkpoint.distance.to_f >= checkpointInfo.distance.to_f 
+          canoes[number] = {'status' => 'PAST', 'time' => '-'}
+          next
+        end
+      end
+
+
+    end
+
+    checkpointView = []
+
+    canoes.each_with_index do |canoe, number|
+      next if canoe.nil?
+      canoe['overdue'] = 0
+
+      checkpointView[number] = canoe
+    end
+
+    checkpointView
   end
 
   private
