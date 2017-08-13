@@ -18,9 +18,9 @@ userList = ['root', 'sydwest', 'start', 'alpha', 'bravo', 'charlie', 'delta',
             'echo', 'foxtrot', 'golf', 'hotel', 'india', 'juliett', 'kilo',
             'lima', 'pitstop', 'mike', 'november', 'oscar', 'spencer', 'papa',
             'quebec', 'sierra', 'tango', 'finish', 'craigp', 'richard', 'doug',
-            'andrew']
+            'andrew', 'chris']
 
-raceadminList = ['root', 'sydwest', 'start', 'finish', 'craigp', 'richard', 'doug', 'andrew']
+raceadminList = ['root', 'sydwest', 'start', 'finish', 'craigp', 'richard', 'doug', 'andrew', 'chris']
 userList.each do |username|
   if User.find_by(username: username) == nil then
     if username == 'craigp' then
