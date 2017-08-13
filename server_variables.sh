@@ -1,0 +1,23 @@
+:
+
+# Environment
+# export HCC_ENVIRONMENT='production'
+# export HCC_ENVIRONMENT='staging'
+export HCC_ENVIRONMENT='development'
+
+# Database
+export HCC_DATABASE_USERNAME='hcc_system'
+export HCC_DATABASE_PASSWORD=''
+# export HCC_DATABASE_TABLE='hcc_system_uat'
+# export HCC_DATABASE_TABLE='hcc_system'
+export HCC_DATABASE_TABLE=''
+
+# Hostname
+#export HCC_RAIL_HOSTNAME='hcc.nsw.wicen.org.au'
+export HCC_RAIL_HOSTNAME='oc3351038806.ibm.com'
+# export HCC_RAIL_PORT='3004' # UAT
+# export HCC_RAIL_PORT='3003' # Prod
+export HCC_RAIL_PORT='3002'
+
+export SECRET_KEY_BASE=''
+export RAILS_SERVER_STATIC_FILES='yes'
