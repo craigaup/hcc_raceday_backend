@@ -45,5 +45,8 @@ class Api::V2017::CanoesController < ApplicationController
   end
 
   def status
+    permittedParams = params.permit(:number)
+    render json: Craft.getStatus(permittedParams[:number]), status: 200
+
   end
 end
