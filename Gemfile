@@ -59,8 +59,4 @@ gem 'bootstrap-sass',          '3.3.6'
 
 gem 'delayed_job_active_record'
 
-group :production, :staging do
-  gem 'mysql2'
-end
-
 gem 'validates_timeliness', '~> 4.0'
