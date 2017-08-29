@@ -196,7 +196,10 @@ class Craft < ApplicationRecord
       end
     end
 
-    data = rawdata[myCheckpoint].clone
+
+    data = []
+    data = rawdata[myCheckpoint].clone unless rawdata[myCheckpoint].nil?
+
     notSeen.each do |canoeNumber|
       mapCheckpoint.each do |checkpoint|
         next if checkpoint.nil?
