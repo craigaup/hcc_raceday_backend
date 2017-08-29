@@ -197,8 +197,7 @@ class Craft < ApplicationRecord
     end
 
 
-    data = []
-    data = rawdata[myCheckpoint].clone unless rawdata[myCheckpoint].nil?
+    data = rawdata[myCheckpoint].clone if !rawdata.nil? && !rawdata[myCheckpoint].nil?
 
     notSeen.each do |canoeNumber|
       mapCheckpoint.each do |checkpoint|
@@ -206,7 +205,8 @@ class Craft < ApplicationRecord
         next unless data[canoeNumber].nil?
 
         next unless checkpoint.distance.to_f > myDistance
-        if !rawdata[checkpoint.longname][canoeNumber].nil?
+        if !rawdata[checkpoint.longname].nil? \
+            && !rawdata[checkpoint.longname][canoeNumber].nil?
           if !rawdata[checkpoint.longname][canoeNumber]['IN'].nil?
             data[canoeNumber] = {}
             data[canoeNumber]['IN'] = rawdata[checkpoint.longname][canoeNumber]['IN']
