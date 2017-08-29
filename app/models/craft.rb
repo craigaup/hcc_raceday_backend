@@ -109,6 +109,186 @@ class Craft < ApplicationRecord
 #     seen
 #   end
 
+  def self.getAllCheckpointInfo(mapCheckpoint = nil, year = DateTime.now.year)
+    data = {}
+    unless mapCheckpoint.is_a? Array
+      mapCheckpoint = []
+      Distance.all.each do |checkpoint|
+        mapCheckpoint[checkpoint.id] = checkpoint
+      end
+    end
+
+    Craft.where('year = ?', year).order(:entered).each do |canoe|
+      number = canoe.number
+      checkpointName = mapCheckpoint[canoe.checkpoint_id].longname
+
+      data[checkpointName] = [] unless data.key?(checkpointName)
+      data[checkpointName][number] = {} if data[checkpointName][number].nil?
+      data[checkpointName][number]['IN'] = canoe if canoe.status == 'IN'
+      if canoe.status == 'OUT'
+        data[checkpointName][number]['OUT'] = canoe
+        data[checkpointName][number]['IN'] = canoe if \
+          data[checkpointName][number]['IN'].nil?
+      end
+
+      if canoe.status == 'WD' || canoe.status == 'DNS'
+        myDistance = mapCheckpoint[canoe.checkpoint_id].distance.to_f
+        mapCheckpoint.each do |checkpoint|
+          next if checkpoint.nil?
+          if checkpoint.id == canoe.checkpoint_id
+            data[checkpointName][number]['IN'] = canoe
+            next
+          end
+
+          if checkpoint.distance.to_f > myDistance
+            data[checkpoint.longname] = [] unless data.key?(checkpoint.longname)
+            data[checkpoint.longname][number] = {} if data[checkpoint.longname][number].nil?
+            data[checkpoint.longname][number]['IN'] = canoe
+            next
+          end
+        end
+      end
+    end
+
+    data
+  end
+
+  def self.displayCheckpointInfo(checkpointName, interval = nil, year = DateTime.now.year)
+    myCheckpoint = nil
+    myDistance = nil
+    myCheckpointID = nil
+    myCheckpointDueSoonFrom = nil
+    mapCheckpoint = []
+    Distance.all.each do |checkpoint|
+      mapCheckpoint[checkpoint.id] = checkpoint
+      if checkpoint.checkpoint == checkpointName \
+          || checkpoint.longname == checkpointName
+        myCheckpoint = checkpoint.longname
+        myDistance = checkpoint.distance.to_f
+        myCheckpointID = checkpoint.id
+        myCheckpointDueSoonFrom = checkpoint.duesoonfrom unless \
+          checkpoint.duesoonfrom == ''
+      end
+    end
+
+    return nil if myCheckpoint.nil?
+
+    rawdata = getAllCheckpointInfo(mapCheckpoint, year)
+
+    firstCanoe = findMinCanoeNumber
+    lastCanoe = findMaxCanoeNumber
+    notSeen = []
+    data = []
+
+    (firstCanoe .. lastCanoe).each do |canoeNumber|
+      if (rawdata[myCheckpoint].nil? \
+          || rawdata[myCheckpoint][canoeNumber].nil? \
+          || (rawdata[myCheckpoint][canoeNumber]['IN'].nil? \
+              && rawdata[myCheckpoint][canoeNumber]['OUT'].nil?))
+        notSeen.push(canoeNumber)
+        next
+      end
+
+      if rawdata[myCheckpoint][canoeNumber]['IN'].nil? \
+          && !rawdata[myCheckpoint][canoeNumber]['OUT'].nil?
+        rawdata[myCheckpoint][canoeNumber]['IN'] = \
+          rawdata[myCheckpoint][canoeNumber]['OUT']
+      end
+    end
+
+    data = rawdata[myCheckpoint].clone
+    notSeen.each do |canoeNumber|
+      mapCheckpoint.each do |checkpoint|
+        next if checkpoint.nil?
+        next unless data[canoeNumber].nil?
+
+        next unless checkpoint.distance.to_f > myDistance
+        if !rawdata[checkpoint.longname][canoeNumber].nil?
+          if !rawdata[checkpoint.longname][canoeNumber]['IN'].nil?
+            data[canoeNumber] = {}
+            data[canoeNumber]['IN'] = rawdata[checkpoint.longname][canoeNumber]['IN']
+            data[canoeNumber]['OUT'] = nil
+          elsif !rawdata[checkpoint.longname][canoeNumber]['OUT'].nil?
+            data[canoeNumber] = {}
+            data[canoeNumber]['IN'] = rawdata[checkpoint.longname][canoeNumber]['OUT']
+            data[canoeNumber]['OUT'] = nil
+          end
+        end
+      end
+    end
+
+    unless myCheckpointDueSoonFrom.nil?
+      found = false
+      mapCheckpoint.each do |checkpoint|
+        next if found
+        next if checkpoint.nil?
+        if checkpoint.checkpoint == myCheckpointDueSoonFrom \
+          || checkpoint.longname == myCheckpointDueSoonFrom
+          found = true
+          myCheckpointDueSoonFrom = checkpoint.longname
+        end
+      end
+
+      notSeen.each do |canoeNumber|
+        next unless data[canoeNumber].nil?
+        next if rawdata[myCheckpointDueSoonFrom][canoeNumber].nil?
+        data[canoeNumber] = {}
+        data[canoeNumber]['IN'] = rawdata[myCheckpointDueSoonFrom][canoeNumber]['OUT']
+        data[canoeNumber]['OUT'] = nil
+      end
+
+    end
+
+    returnData = {}
+    (firstCanoe .. lastCanoe).each do |canoeNumber|
+      next if data[canoeNumber].nil? || data[canoeNumber]['IN'].nil?
+
+      returnData[canoeNumber] = {}
+      tmpdata = data[canoeNumber]['IN']
+
+      if tmpdata.status == 'DNS'
+        returnData[canoeNumber]['IN'] = { 'status' => 'DNS',
+                                          'time' => 'DNS',
+                                          'overdue' => false
+        }
+      elsif tmpdata.status == 'WD'
+        returnData[canoeNumber]['IN'] = { 'status' => 'WD',
+                                          'time' => 'WD ' + mapCheckpoint[tmpdata.checkpoint_id].checkpoint,
+                                          'overdue' => false
+        }
+      elsif tmpdata.checkpoint_id == myCheckpointID
+        returnData[canoeNumber]['IN'] = { 'status' => 'IN',
+                                          'time' => \
+                                          getTimeFormat(tmpdata.time, true),
+                                          'overdue' => false
+        }
+
+        unless data[canoeNumber]['OUT'].nil?
+          tmpdata = data[canoeNumber]['OUT']
+          returnData[canoeNumber]['OUT'] = { 'status' => 'OUT',
+                                             'time' => \
+                                             getTimeFormat(tmpdata.time, true),
+                                             'overdue' => false
+          }
+        end
+      elsif mapCheckpoint[tmpdata.checkpoint_id].distance.to_f < myDistance
+        returnData[canoeNumber]['IN'] = { 'status' => 'DUESOON',
+                                          'time' => \
+                                          getTimeFormat(tmpdata.time),
+                                          'overdue' => false
+        }
+      elsif mapCheckpoint[tmpdata.checkpoint_id].distance.to_f > myDistance
+        returnData[canoeNumber]['IN'] = { 'status' => 'SKIPPED', 
+                                          'time' => mapCheckpoint[tmpdata.checkpoint_id].checkpoint + ' at ' + \
+                                          getTimeFormat(tmpdata.time),
+                                          'overdue' => false
+        }
+      end
+    end
+
+    returnData
+  end
+
   def self.getAllCheckpointHistory(checkpointName, year = DateTime.now.year)
     #checkpointinfo = Distance.findCheckpointEntry(checkpointName, year)
 
@@ -278,12 +458,15 @@ class Craft < ApplicationRecord
   def isLate?(defaultAverageSpeed = 15)
   end
 
-  def getTimeFormat(time, giveSeconds = False)
+  def self.getTimeFormat(time, giveSeconds = false)
     array = time.localtime.to_a
 
-    output = array[2].to_s + ':' + array[1].to_s
-    output += ':' + array[0] if giveSeconds
-    
+    if giveSeconds
+      output = sprintf('%d:%2d:%2d', array[2], array[1], array[0])\
+        .gsub(/ /, '0')
+    else
+      output = sprintf('%d:%2d', array[2], array[1]).gsub(/ /, '0')
+    end
     output
   end
 

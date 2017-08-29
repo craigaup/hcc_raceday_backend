@@ -1,5 +1,5 @@
 class Api::V2017::CheckpointsController < Api::V2017::ApplicationController
-  before_action :authenticate_user, except: [:info]
+  before_action :authenticate_user, except: [:info, :status]
 
   def info
     checkpoints = Distance.getAllCheckpointInformation
@@ -43,7 +43,16 @@ class Api::V2017::CheckpointsController < Api::V2017::ApplicationController
 
   end
 
-  def history
+  def status
+    permParams = params.permit(:checkpoint)
+
+    checkpointInfo = Distance.findCheckpointEntry(permParams[:checkpoint])
+    if checkpointInfo.nil?
+      render json: 'Problem with Checkpoint Name', status: 406
+    end
+
+    render json: Craft.displayCheckpointInfo(checkpointInfo.longname),\
+      status: 200
   end
 
   def historyAll

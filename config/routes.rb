@@ -8,7 +8,7 @@ Rails.application.routes.draw do
       get 'canoes/:number/history', to: 'canoes#history'
       get 'canoes/:number/status', to: 'canoes#status'
       post 'checkpoints/sendCanoe', to: 'checkpoints#sendCanoe'
-      post 'checkpoints/:checkpoint/status', to: 'checkpoints#status'
+      get 'checkpoints/:checkpoint/status', to: 'checkpoints#status'
       get 'checkpoints/info', to: 'checkpoints#info'
       post 'session/login', to: 'session#login'
       get 'session/logout', to: 'session#logout'
