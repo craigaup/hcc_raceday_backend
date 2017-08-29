@@ -234,6 +234,7 @@ class Craft < ApplicationRecord
 
       notSeen.each do |canoeNumber|
         next unless data[canoeNumber].nil?
+        next if rawdata[myCheckpointDueSoonFrom].nil?
         next if rawdata[myCheckpointDueSoonFrom][canoeNumber].nil?
         data[canoeNumber] = {}
         data[canoeNumber]['IN'] = rawdata[myCheckpointDueSoonFrom][canoeNumber]['OUT']
