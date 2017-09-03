@@ -60,3 +60,8 @@ gem 'bootstrap-sass',          '3.3.6'
 gem 'delayed_job_active_record'
 
 gem 'validates_timeliness', '~> 4.0'
+
+
+group :production do
+  gem 'mysql2'
+end

@@ -25,3 +25,11 @@ Things you may want to cover:
 
 
 Make sure to add a file in 'db/seeds/.userinitialpass.rb' there is a template of what it should look like in the directory
+
+```sql
+CREATE USER 'raceday_sim'@'localhost' IDENTIFIED BY '';
+GRANT USAGE ON *.* TO 'raceday_sim';
+create database raceday_sim;
+grant all privileges on hcc_system.* to 'raceday_sim'@'%';
+```
+
