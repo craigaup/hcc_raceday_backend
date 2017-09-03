@@ -11,22 +11,23 @@ class Craft < ApplicationRecord
   validates :time, presence: true
 
   def self.findMinCanoeNumber(year = DateTime.now.year)
-    minCanoeNumber = Datum.where('lower(key) = lower(?) and year = ?',
-                                'firstcanoenumber',year.to_s)
-    if minCanoeNumber.nil? || minCanoeNumber.last.nil?
+    minCanoeNumber = Datum.returnValue('firstcanoenumber',year)
+
+    if minCanoeNumber.nil?
       return 100
     end
 
-    minCanoeNumber.last.data.to_i
+    minCanoeNumber.to_i
   end
   
   def self.findMaxCanoeNumber(year = DateTime.now.year)
-    maxCanoeNumber = Datum.where('lower(key) = lower(?) and year = ?',
-                                'lastcanoenumber',year.to_s)
-    if maxCanoeNumber.nil? || maxCanoeNumber.last.nil?
+    maxCanoeNumber = Datum.returnValue('lastcanoenumber',year)
+
+    if maxCanoeNumber.nil?
       return 500
     end
-    maxCanoeNumber.last.data.to_i
+
+    maxCanoeNumber.to_i
   end
   
   def self.getStatus(canoeNumber, year = DateTime.now.year)
