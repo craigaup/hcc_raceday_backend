@@ -4,6 +4,7 @@
 # export HCC_ENVIRONMENT='production'
 # export HCC_ENVIRONMENT='staging'
 export HCC_ENVIRONMENT='development'
+export RAILS_ENV=$HCC_ENVIRONMENT
 
 # Database
 export HCC_DATABASE_USERNAME='hcc_system'
