@@ -1,4 +1,4 @@
-class Api::V2017::CanoesController < ApplicationController
+class Api::V2017::CanoesController < Api::V2017::ApplicationController
   before_action :authenticate_user,  only: [:add]
   def first
     number = Craft.findMinCanoeNumber
