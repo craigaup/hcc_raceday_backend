@@ -18,8 +18,13 @@ staging:
   database: db/staging.sqlite3
 
 simulation:
-  <<: *default
-  database: db/simulation.sqlite3
+  adapter: mysql2
+  encoding: utf8
+  pool: 5
+  username: <%= ENV['HCC_DATABASE_USERNAME'] %>
+  password: <%= ENV['HCC_DATABASE_PASSWORD'] %>
+  host: 127.0.0.1
+  database: <%= ENV['HCC_DATABASE_TABLE'] %>
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
