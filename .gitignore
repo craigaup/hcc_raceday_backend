@@ -28,3 +28,5 @@ vendor/bundle
 
 public/assets
 db/seeds/.userinitialpass.rb
+
+server_variables.sh
