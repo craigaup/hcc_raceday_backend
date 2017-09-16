@@ -44,14 +44,20 @@ class Api::V2017::CheckpointsController < Api::V2017::ApplicationController
   end
 
   def status
-    permParams = params.permit(:checkpoint)
+    permParams = params.permit(:checkpoint, :interval)
 
     checkpointInfo = Distance.findCheckpointEntry(permParams[:checkpoint])
     if checkpointInfo.nil?
       render json: 'Problem with Checkpoint Name', status: 406
     end
 
-    render json: Craft.displayCheckpointInfo(checkpointInfo.longname),\
+    interval = nil
+    unless permParams[:interval].nil?
+      interval = permParams[:interval].to_i if permParams[:interval].to_i > 0
+    end
+
+    render json: Craft.displayCheckpointInfo(checkpointInfo.longname,
+                                             interval),\
       status: 200
   end
 

@@ -154,7 +154,12 @@ class Craft < ApplicationRecord
     data
   end
 
-  def self.displayCheckpointInfo(checkpointName, interval = nil, year = DateTime.now.year)
+  def overdue?
+    return false
+  end
+
+  def self.displayCheckpointInfo(checkpointName, interval = nil,
+                                 year = DateTime.now.year)
     myCheckpoint = nil
     myDistance = nil
     myCheckpointID = nil
@@ -248,7 +253,22 @@ class Craft < ApplicationRecord
     (firstCanoe .. lastCanoe).each do |canoeNumber|
       next if data[canoeNumber].nil? || data[canoeNumber]['IN'].nil?
 
+      unless interval.nil?
+        oldtime = interval.minutes.ago.to_i
+        intime =  data[canoeNumber]['IN'].updated_at.to_i
+
+        intime = Time.now.to_i if data[canoeNumber]['IN'].overdue?
+
+        if data[canoeNumber]['OUT'].nil?
+          next unless oldtime <= intime
+        else
+          outtime = data[canoeNumber]['OUT'].updated_at.to_i
+          next unless ((oldtime <= intime) || ( oldtime <= outtime ))
+        end
+      end
+
       returnData[canoeNumber] = {}
+
       tmpdata = data[canoeNumber]['IN']
 
       if tmpdata.status == 'DNS'

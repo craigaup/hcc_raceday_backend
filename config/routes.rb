@@ -9,6 +9,7 @@ Rails.application.routes.draw do
       get 'canoes/:number/status', to: 'canoes#status'
       post 'checkpoints/sendCanoe', to: 'checkpoints#sendCanoe'
       get 'checkpoints/:checkpoint/status', to: 'checkpoints#status'
+      get 'checkpoints/:checkpoint/status/:interval', to: 'checkpoints#status'
       get 'checkpoints/info', to: 'checkpoints#info'
       post 'session/login', to: 'session#login'
       get 'session/logout', to: 'session#logout'
