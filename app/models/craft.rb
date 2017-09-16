@@ -484,7 +484,7 @@ class Craft < ApplicationRecord
   end
 
   def self.getTimeFormat(time, giveSeconds = false)
-    array = time.localtime.to_a
+    array = time.to_a
 
     if giveSeconds
       output = sprintf('%d:%2d:%2d', array[2], array[1], array[0])\
