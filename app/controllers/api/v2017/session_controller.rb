@@ -16,7 +16,6 @@ class Api::V2017::SessionController < Api::V2017::ApplicationController
 
   def logout
     session[:user_id] = nil
-    byebug
     render json: {message: "Logged out"}, status: :loggedout,
       location: 'login'
   end
