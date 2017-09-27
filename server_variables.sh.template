@@ -22,3 +22,5 @@ export HCC_RAIL_PORT='3002'
 
 export SECRET_KEY_BASE=''
 export RAILS_SERVER_STATIC_FILES='yes'
+
+export HCC_INTERCONNECT_HASH=""
