@@ -33,7 +33,9 @@ class Craft < ApplicationRecord
   def self.getStatus(canoeNumber, year = DateTime.now.year)
     dist = -1
     canoe = nil
-    Craft.getHistory('124')[124].each do |key, tmparray|
+    history = Craft.getHistory(canoeNumber)
+    return {} if history.empty?
+    history[canoeNumber].each do |key, tmparray|
       element = tmparray[-1]
       if element[:distance] > dist
         dist = element[:distance]
