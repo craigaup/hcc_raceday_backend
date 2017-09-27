@@ -7,6 +7,7 @@ Rails.application.routes.draw do
       post 'canoes/:number/:status/:checkpoint/:date_time', to: 'canoes#add'
       get 'canoes/:number/history', to: 'canoes#history'
       get 'canoes/:number/status', to: 'canoes#status'
+      post 'canoes/send', to: 'canoes#sendData'
       post 'checkpoints/sendCanoe', to: 'checkpoints#sendCanoe'
       get 'checkpoints/:checkpoint/status', to: 'checkpoints#status'
       get 'checkpoints/:checkpoint/status/:interval', to: 'checkpoints#status'
