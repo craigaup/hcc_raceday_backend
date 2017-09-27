@@ -476,8 +476,6 @@ class Craft < ApplicationRecord
 
     end
 
-    byebug
-
     checkpointView
   end
 
