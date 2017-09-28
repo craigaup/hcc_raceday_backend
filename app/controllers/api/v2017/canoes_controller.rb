@@ -126,4 +126,31 @@ class Api::V2017::CanoesController < Api::V2017::ApplicationController
     render json: output['message'].join("\n"), status: output['status']
 
   end
+
+  def withdrawal_list
+    checkpoints = []
+
+    Distance.all.each do |checkpoint|
+      checkpoints[checkpoint.id] = checkpoint.checkpoint
+    end
+
+    output = Craft.where(status: 'WD').map do |canoe|
+      {
+        number: canoe.number,
+        status: 'WD ' + checkpoints[canoe.checkpoint_id],
+        time: Craft.getTimeFormat(canoe.time)
+      }
+    end
+    render json: output.to_json, status: 200
+  end
+
+  def nonstarter_list
+    output = Craft.where(status: 'DNS').map do |canoe|
+      {
+        number: canoe.number,
+        status: 'DNS'
+      }
+    end
+    render json: output.to_json, status: 200
+  end
 end
