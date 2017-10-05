@@ -55,10 +55,11 @@ class Api::V2017::CanoesController < Api::V2017::ApplicationController
     output['status'] = 200
 
     canoeinfo = params.permit(:checksum, :time, :checksumtype).to_h
-
     canoeinfo['canoes'] = params['canoes'].to_ary
+
     canoeinfo['checksumtype'] = 'SHA256' unless canoeinfo.key?('checksumtype')
 
+#byebug
 
     if canoeinfo['checksum'].nil? || canoeinfo['time'].nil?
       render json: 'Something went wrong', status: 406
