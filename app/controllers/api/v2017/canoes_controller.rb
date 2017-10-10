@@ -54,52 +54,44 @@ class Api::V2017::CanoesController < Api::V2017::ApplicationController
     output['message'] = []
     output['status'] = 200
 
-    canoeinfo = params.permit(:checksum, :time, :checksumtype).to_h
-    canoeinfo['canoes'] = params['canoes'].to_ary
+    canoeinfo = params.permit(:c, :t, :ct).to_h
+    canoeinfo['canoes'] = params['d'].to_ary
 
-    canoeinfo['checksumtype'] = 'SHA256' unless canoeinfo.key?('checksumtype')
+    canoeinfo['ct'] = 'SHA256' unless canoeinfo.key?('ct')
 
 #byebug
 
-    if canoeinfo['checksum'].nil? || canoeinfo['time'].nil?
+    if canoeinfo['c'].nil? || canoeinfo['t'].nil?
       render json: 'Something went wrong', status: 406
       return
     end
 
-    checksum = canoeinfo[:checksum] 
+    checksum = canoeinfo[:c] 
 
-    hash = ENV['HCC_INTERCONNECT_HASH']
     raw_data = JSON.parse(request.raw_post)
-    raw_data.delete('checksum')
-    raw_data.delete('checksumtype')
 
-    currentChecksum = OpenSSL::HMAC.hexdigest(canoeinfo['checksumtype'],
-                                              [hash].pack('H*'),
-                                              raw_data.to_json)\
-      .split(//)[-8..-1].join()
-
+    currentChecksum = CraftsHelper.generateHash(raw_data,
+                                                canoeinfo['ct'])
 
     if currentChecksum != checksum
       render json: 'Something went wrong - ', status: 406
       return
     end
 
-    time = Time.strptime(canoeinfo['time'].to_s,"%S")
+    time = Time.strptime(canoeinfo['t'].to_s,"%S")
+
+    year = DateTime.now.year
 
     canoeinfo['canoes'].each do |canoe|
-      newcraft = Craft.new()
+      number = canoe[0]
 
-      newcraft.number = canoe[0]
+      status = canoe[1]
 
-      newcraft.status = canoe[1]
-
-      newcraft.time = Time.strptime(canoe[2].to_s,"%S")
-
-      newcraft.year = DateTime.now.year
+      time = Time.strptime(canoe[2].to_s,"%S")
 
       checkpointName = canoe[3]
-      checkpoint = Distance.findCheckpointEntry(checkpointName, newcraft.year)
-      newcraft.checkpoint_id = checkpoint.id unless checkpoint.nil?
+      checkpoint = Distance.findCheckpointEntry(checkpointName, year)
+      checkpoint_id = checkpoint.id unless checkpoint.nil?
 
       cuser = User.find_by(username: canoe[4].downcase)
       if cuser.nil?
@@ -109,8 +101,33 @@ class Api::V2017::CanoesController < Api::V2017::ApplicationController
         cuser.save
       end
 
+      entered = if canoe[5].nil?
+                  DateTime.now
+                else
+                  Time.strptime(canoe[5].to_s,"%S")
+                end
+
+      newcraft = Craft.find_by(
+        {
+          number: number,
+          status: status,
+          time: time,
+          checkpoint_id: checkpoint_id
+        }
+      )
+
+      next unless newcraft.nil?
+
+      newcraft = Craft.new()
+
+      newcraft.number = number
+      newcraft.year = year
+      newcraft.status = status
+      newcraft.time = time
+      newcraft.entered = entered
+      newcraft.checkpoint_id = checkpoint_id
+
       newcraft.user_id = cuser.id
-      newcraft.entered = DateTime.now
       
       if !newcraft.save
         output['status'] = 406
@@ -124,8 +141,19 @@ class Api::V2017::CanoesController < Api::V2017::ApplicationController
         output['message'].push("Added canoe #{newcraft.number} #{newcraft.status} at checkpoint #{checkpointName}")
       end
     end
+#byebug
+
     render json: output['message'].join("\n"), status: output['status']
 
+  end
+
+  def getData
+    canoeinfo = params.permit(:checkpoint, :interval).to_h
+
+    checksumtype = 'SHA256'
+
+    CraftsHelper.getData(canoeinfo[:checkpoint], canoeinfo[:interval],\
+                         checksumtype)
   end
 
   def withdrawal_list
@@ -135,7 +163,7 @@ class Api::V2017::CanoesController < Api::V2017::ApplicationController
       checkpoints[checkpoint.id] = checkpoint.checkpoint
     end
 
-    output = Craft.where(status: 'WD').map do |canoe|
+    output = Craft.where(status: 'WD').order(:created_at).map do |canoe|
       {
         number: canoe.number,
         status: 'WD ' + checkpoints[canoe.checkpoint_id],
@@ -146,7 +174,7 @@ class Api::V2017::CanoesController < Api::V2017::ApplicationController
   end
 
   def nonstarter_list
-    output = Craft.where(status: 'DNS').map do |canoe|
+    output = Craft.where(status: 'DNS').order(:created_at).map do |canoe|
       {
         number: canoe.number,
         status: 'DNS'

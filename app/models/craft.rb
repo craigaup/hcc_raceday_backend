@@ -160,8 +160,53 @@ class Craft < ApplicationRecord
     return false
   end
 
+  def self.getData(checkpointName, interval, year = DateTime.now.year)
+    return nil if interval.nil?
+    return nil if checkpointName.nil?
+    return nil unless interval =~ /^\d+$/ || interval == 'ALL'
+
+    if interval == 'ALL'
+      oldtime = 0
+    else
+      oldtime = interval.minutes.ago.to_i
+    end
+
+    if checkpointName != 'ALL'
+      myCheckpoint = nil
+      myDistance = nil
+      myCheckpointID = nil
+      myCheckpointDueSoonFrom = nil
+      mapCheckpoint = []
+      Distance.all.each do |checkpoint|
+        mapCheckpoint[checkpoint.id] = checkpoint
+        if checkpoint.checkpoint == checkpointName \
+            || checkpoint.longname == checkpointName
+          myCheckpoint = checkpoint.longname
+          myDistance = checkpoint.distance.to_f
+          myCheckpointID = checkpoint.id
+          myCheckpointDueSoonFrom = checkpoint.duesoonfrom unless \
+            checkpoint.duesoonfrom == ''
+        end
+      end
+
+      return nil if myCheckpoint.nil?
+
+      list = Craft.where({year: year, checkpoint_id: myCheckpointID})
+    else
+      list = Craft.where({year: year})
+    end
+
+    list.select do |canoe|
+      canoe if canoe.updated_at.to_i >= oldtime
+    end
+  end
+
   def self.displayCheckpointInfo(checkpointName, interval = nil,
                                  year = DateTime.now.year)
+    unless interval.nil?
+      oldtime = interval.minutes.ago.to_i
+    end
+
     myCheckpoint = nil
     myDistance = nil
     myCheckpointID = nil
@@ -256,7 +301,6 @@ class Craft < ApplicationRecord
       next if data[canoeNumber].nil? || data[canoeNumber]['IN'].nil?
 
       unless interval.nil?
-        oldtime = interval.minutes.ago.to_i
         intime =  data[canoeNumber]['IN'].updated_at.to_i
 
         intime = Time.now.to_i if data[canoeNumber]['IN'].overdue?
