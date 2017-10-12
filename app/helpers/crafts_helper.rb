@@ -1,4 +1,6 @@
 module CraftsHelper
+  @encrypt = false
+
   @forw = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'\
     .split(//)
 
@@ -21,6 +23,7 @@ module CraftsHelper
   @statuslist = ['IN', 'OUT', 'DNS', 'WD']
 
   def self.convertvaltochars(myval)
+    return myval unless @encrypt
     out = []
     return @forw[(myval % @arraysize)] if myval == 0 
     while (myval > 0)
@@ -32,6 +35,7 @@ module CraftsHelper
   end
 
   def self.convertcharstoval(chars)
+    return chars unless @encrypt
     myval = 0
     value = 1
 
@@ -44,6 +48,7 @@ module CraftsHelper
   end
 
   def self.convertstatustochars(status)
+    return status unless @encrypt
     statusmap = {}
     @statuslist.each_with_index do |x, index|
       statusmap[x] = CraftsHelper.convertvaltochars(index)
@@ -53,6 +58,7 @@ module CraftsHelper
   end
 
   def self.convertcharstostatus(value)
+    return value unless @encrypt
     statusmap = {}
     @statuslist.each_with_index do |x, index|
       statusmap[x] = CraftsHelper.convertvaltochars(index)
@@ -63,7 +69,6 @@ module CraftsHelper
       revstatusmap[index] = x
     end
 
-    revstatu  def self.convertusernametochars(name)
     usermap = {}
     @userlist.each_with_index do |x, index|
       usermap[x] = CraftsHelper.convertvaltochars(index)
@@ -74,6 +79,7 @@ module CraftsHelper
   end
 
   def self.convertcharstousername(value)
+    return value unless @encrypt
     usermap = {}
     @userlist.each_with_index do |x, index|
       usermap[x] = CraftsHelper.convertvaltochars(index)
@@ -86,10 +92,9 @@ module CraftsHelper
 
     revusermap[value]
   end
-smap[value]
-  end
 
   def self.convertusernametochars(name)
+    return name unless @encrypt
     usermap = {}
     @userlist.each_with_index do |x, index|
       usermap[x] = CraftsHelper.convertvaltochars(index)
@@ -100,6 +105,7 @@ smap[value]
   end
 
   def self.convertcharstousername(value)
+    return value unless @encrypt
     usermap = {}
     @userlist.each_with_index do |x, index|
       usermap[x] = CraftsHelper.convertvaltochars(index)
