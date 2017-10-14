@@ -33,6 +33,7 @@ class Craft < ApplicationRecord
   def self.getStatus(canoeNumber, year = DateTime.now.year)
     dist = -1
     canoe = nil
+    canoeNumber = canoeNumber.to_i
     history = Craft.getHistory(canoeNumber)
     return {} if history.empty?
     history[canoeNumber].each do |key, tmparray|
