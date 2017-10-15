@@ -78,7 +78,7 @@ class Api::V2017::CanoesController < Api::V2017::ApplicationController
       return
     end
 
-    time = Time.strptime(canoeinfo['t'].to_s,"%S")
+    time = Time.strptime(canoeinfo['t'].to_s,"%s")
 
     year = DateTime.now.year
 
@@ -87,7 +87,7 @@ class Api::V2017::CanoesController < Api::V2017::ApplicationController
 
       status = canoe[1]
 
-      time = Time.strptime(canoe[2].to_s,"%S")
+      time = Time.strptime(canoe[2].to_s,"%s")
 
       checkpointName = canoe[3]
       checkpoint = Distance.findCheckpointEntry(checkpointName, year)
@@ -104,7 +104,7 @@ class Api::V2017::CanoesController < Api::V2017::ApplicationController
       entered = if canoe[5].nil?
                   DateTime.now
                 else
-                  Time.strptime(canoe[5].to_s,"%S")
+                  Time.strptime(canoe[5].to_s,"%s")
                 end
 
       newcraft = Craft.find_by(
