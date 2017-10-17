@@ -48,8 +48,18 @@ class Api::V2017::CanoesController < Api::V2017::ApplicationController
   end
 
   def status
-    permittedParams = params.permit(:number)
-    render json: Craft.getStatus(permittedParams[:number]), status: 200
+    permittedParams = params.permit(:number, :interval)
+    render json: Craft.getStatus(permittedParams[:number],
+                                 permittedParams[:interval],
+                                 DateTime.now.year
+                                ), status: 200
+  end
+
+  def field
+    permittedParams = params.permit(:interval)
+    render json: Craft.getFieldInfo(permittedParams[:interval],
+                                    DateTime.now.year
+                                   ), status: 200
   end
 
   def sendData

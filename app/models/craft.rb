@@ -30,12 +30,34 @@ class Craft < ApplicationRecord
     maxCanoeNumber.to_i
   end
   
-  def self.getStatus(canoeNumber, year = DateTime.now.year)
-    dist = -1
-    canoe = nil
+  def self.getFieldInfo(interval = 'ALL', year = DateTime.now.year)
+    lastseen = {}
+
+    history = Craft.getHistory('ALL', interval, year)
+    history.keys.each do |canoeNumber|
+      lastseen[canoeNumber] = Craft.find_last_entry(history, canoeNumber)
+    end
+
+    lastseen
+  end
+
+  def self.getStatus(canoeNumber, interval = 'ALL', year = DateTime.now.year)
+
+    return {} if canoeNumber.nil? || canoeNumber == '' \
+      || canoeNumber.upcase == 'ALL'
+
     canoeNumber = canoeNumber.to_i
-    history = Craft.getHistory(canoeNumber)
+    history = Craft.getHistory(canoeNumber, interval, year)
+
+    return Craft.find_last_entry(history, canoeNumber)
+  end
+  
+  def self.find_last_entry(history, canoeNumber)
     return {} if history.empty?
+    return {} if history[canoeNumber].nil?
+
+    dist = -1
+    canoe = {}
     history[canoeNumber].each do |key, tmparray|
       element = tmparray[-1]
       if element[:distance] > dist
@@ -73,14 +95,15 @@ class Craft < ApplicationRecord
   def self.getHistory(canoeNumber, interval = 'ALL', year = DateTime.now.year)
     lastseen = {}
     list = if canoeNumber.nil? || canoeNumber == '' \
-        || canoeNumber.upcase == 'ALL'
+        || (canoeNumber.is_a?(String) && canoeNumber.upcase == 'ALL')
              Craft.where('year = ?', year).order(:entered)
            else
              Craft.where('year = ? AND number = ?', year, canoeNumber).order(:entered)
            end
 
     interval = 'ALL' if interval.nil?
-    return lastseen unless interval =~ /^\d+$/ || interval.upcase == 'ALL'
+    return lastseen unless interval =~ /^\d+$/ \
+      || (interval.is_a?(String) && interval.upcase == 'ALL')
 
     if interval.upcase == 'ALL'
       oldtime = 0

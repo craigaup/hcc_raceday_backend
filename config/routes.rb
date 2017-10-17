@@ -8,6 +8,8 @@ Rails.application.routes.draw do
       get 'canoes/:number/history', to: 'canoes#history'
       get 'canoes/:number/history/:interval', to: 'canoes#history'
       get 'canoes/:number/status', to: 'canoes#status'
+      get 'canoes/field/:interval', to: 'canoes#field'
+      get 'canoes/field', to: 'canoes#field'
       get 'canoes/withdrawals', to: 'canoes#withdrawal_list'
       get 'canoes/nonstarters', to: 'canoes#nonstarter_list'
       get 'canoes/:number/status', to: 'canoes#status'
