@@ -46,13 +46,47 @@ class Craft < ApplicationRecord
     canoe
   end
 
+  # def self.getHistory(canoeNumber, year = DateTime.now.year)
+  #   lastseen = {}
+  #   Craft.where('year = ?', year).order(:entered).each do |canoe|
+  #     next if canoeNumber != '' && canoe.number.to_s != canoeNumber.to_s
+  #     number = canoe.number
+  #     checkpointName = canoe.checkpoint.longname
+  #     distance = (canoe.checkpoint.distance.to_f * 1000).round(0).to_i
+ 
+  #     if !lastseen.key?(number)
+  #       lastseen[number] = {}
+  #     end
+
+  #     if !lastseen[number].key?(checkpointName)
+  #       lastseen[number][checkpointName] = []
+  #     end
+  #     lastseen[number][checkpointName].push({ number: number,
+  #                                             checkpoint: checkpointName,
+  #                                             status: canoe.status,
+  #                                             time: canoe.time,
+  #                                             distance: distance })
+  #   end
+  #   lastseen
+  # end
+
   def self.getHistory(canoeNumber, year = DateTime.now.year)
     lastseen = {}
-    Craft.where('year = ?', year).order(:entered).each do |canoe|
-      next if canoeNumber != '' && canoe.number.to_s != canoeNumber.to_s
+    list = if canoeNumber.nil? || canoeNumber == '' || canoeNumber.upcase == 'ALL'
+             Craft.where('year = ?', year).order(:entered)
+           else
+             Craft.where('year = ? AND number = ?', year, canoeNumber).order(:entered)
+           end
+
+    mapCheckpoint = []
+    Distance.all.each do |checkpoint|
+      mapCheckpoint[checkpoint.id] = checkpoint
+    end
+
+    list.each do |canoe|
       number = canoe.number
-      checkpointName = canoe.checkpoint.longname
-      distance = (canoe.checkpoint.distance.to_f * 1000).round(0).to_i
+      checkpointName = mapCheckpoint[canoe.checkpoint_id].longname
+      distance = (mapCheckpoint[canoe.checkpoint_id].distance.to_f * 1000).round(0).to_i
  
       if !lastseen.key?(number)
         lastseen[number] = {}
@@ -65,7 +99,7 @@ class Craft < ApplicationRecord
                                               checkpoint: checkpointName,
                                               status: canoe.status,
                                               time: canoe.time,
-                                              distance: distance})
+                                              distance: distance })
     end
     lastseen
   end
