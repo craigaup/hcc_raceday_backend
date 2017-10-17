@@ -60,8 +60,8 @@ class Api::V2017::CanoesController < Api::V2017::ApplicationController
   def info
     permittedParams = params.permit(:number)
 
-    base = 'http://localhost:3001/'
-    url = 'http://localhost:3001/api/v2017/teams/info'
+    base = ENV['HCC_REGISTRATION_BASEURL']
+    url = base + '/api/v2017/teams/info'
     header = {'Content-Type': 'application/json'}
     uri = URI.parse(url)
 
