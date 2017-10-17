@@ -40,8 +40,11 @@ class Api::V2017::CanoesController < Api::V2017::ApplicationController
   end
 
   def history
-    permittedParams = params.permit(:number)
-    render json: Craft.getHistory(permittedParams[:number]), status: 200
+    permittedParams = params.permit(:number, :interval)
+    render json: Craft.getHistory(permittedParams[:number], \
+                                  permittedParams[:interval], \
+                                  DateTime.now.year
+                                 ), status: 200
   end
 
   def status

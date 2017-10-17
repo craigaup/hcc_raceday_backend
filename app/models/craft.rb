@@ -70,13 +70,23 @@ class Craft < ApplicationRecord
   #   lastseen
   # end
 
-  def self.getHistory(canoeNumber, year = DateTime.now.year)
+  def self.getHistory(canoeNumber, interval = 'ALL', year = DateTime.now.year)
     lastseen = {}
-    list = if canoeNumber.nil? || canoeNumber == '' || canoeNumber.upcase == 'ALL'
+    list = if canoeNumber.nil? || canoeNumber == '' \
+        || canoeNumber.upcase == 'ALL'
              Craft.where('year = ?', year).order(:entered)
            else
              Craft.where('year = ? AND number = ?', year, canoeNumber).order(:entered)
            end
+
+    interval = 'ALL' if interval.nil?
+    return lastseen unless interval =~ /^\d+$/ || interval.upcase == 'ALL'
+
+    if interval.upcase == 'ALL'
+      oldtime = 0
+    else
+      oldtime = interval.to_i.minutes.ago.to_i
+    end
 
     mapCheckpoint = []
     Distance.all.each do |checkpoint|
@@ -85,6 +95,8 @@ class Craft < ApplicationRecord
 
     list.each do |canoe|
       number = canoe.number
+      next unless canoe.updated_at.to_i >= oldtime
+
       checkpointName = mapCheckpoint[canoe.checkpoint_id].longname
       distance = (mapCheckpoint[canoe.checkpoint_id].distance.to_f * 1000).round(0).to_i
  
@@ -95,6 +107,7 @@ class Craft < ApplicationRecord
       if !lastseen[number].key?(checkpointName)
         lastseen[number][checkpointName] = []
       end
+
       lastseen[number][checkpointName].push({ number: number,
                                               checkpoint: checkpointName,
                                               status: canoe.status,

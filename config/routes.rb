@@ -6,6 +6,7 @@ Rails.application.routes.draw do
       get 'canoes/last', to: 'canoes#last'
       post 'canoes/:number/:status/:checkpoint/:date_time', to: 'canoes#add'
       get 'canoes/:number/history', to: 'canoes#history'
+      get 'canoes/:number/history/:interval', to: 'canoes#history'
       get 'canoes/:number/status', to: 'canoes#status'
       get 'canoes/withdrawals', to: 'canoes#withdrawal_list'
       get 'canoes/nonstarters', to: 'canoes#nonstarter_list'
