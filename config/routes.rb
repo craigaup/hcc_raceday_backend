@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v2017 do
       get 'status/types', to: 'status#types'
+      get 'canoes/:number/info', to: 'canoes#info'
       get 'canoes/first', to: 'canoes#first'
       get 'canoes/last', to: 'canoes#last'
       post 'canoes/:number/:status/:checkpoint/:date_time', to: 'canoes#add'

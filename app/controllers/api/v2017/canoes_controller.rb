@@ -1,5 +1,7 @@
 class Api::V2017::CanoesController < Api::V2017::ApplicationController
-  before_action :authenticate_user,  only: [:add]
+  before_action :authenticate_user,  only: [:add, :info]
+  before_action :must_be_race_admin, only: [:info]
+
   def first
     number = Craft.findMinCanoeNumber
     render json: number, status: 200    
@@ -53,6 +55,31 @@ class Api::V2017::CanoesController < Api::V2017::ApplicationController
                                  permittedParams[:interval],
                                  DateTime.now.year
                                 ), status: 200
+  end
+
+  def info
+    permittedParams = params.permit(:number)
+
+    base = 'http://localhost:3001/'
+    url = 'http://localhost:3001/api/v2017/teams/info'
+    header = {'Content-Type': 'application/json'}
+    uri = URI.parse(url)
+
+    payload = {b: permittedParams[:number], t: DateTime.now.to_i}
+    payload[:c] = CraftsHelper.generateHash(payload, "SHA256")
+
+    http = Net::HTTP.new(uri.host, uri.port)
+    http.use_ssl = true if base =~ /^https/
+    request = Net::HTTP::Post.new(uri.request_uri, header)
+    request.body = payload.to_json
+
+    resp = http.request(request)
+    if resp.code.to_s != 200.to_s
+      render json: 'ERROR - ' + resp.message, status: resp.code
+    else
+      render json: resp.body, status: resp.code
+    end
+
   end
 
   def field

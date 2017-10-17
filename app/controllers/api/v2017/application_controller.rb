@@ -9,6 +9,15 @@ class Api::V2017::ApplicationController < ApplicationController
   end
 
   protected
+  def must_be_race_admin
+    if @current_user.nil? || !@current_user.israceadmin?
+      render json: {message: 'Not logged in Race Admin'}, status: 401,
+        location: 'login'
+      return false
+    end
+    return true
+  end
+
   def authenticate_user
     if session[:user_id]
       # set current user object to @current_user object variable
