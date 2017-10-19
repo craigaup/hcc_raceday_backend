@@ -13,7 +13,11 @@ class Datum < ApplicationRecord
   def self.returnValue(key, year = DateTime.now.year)
     return nil if key.nil?
     
-    value = Datum.find_by('year = ? AND lower(key) = ?',year.to_s, key.downcase)
+    value = nil
+
+    Datum.where('year = ?',year.to_s).each do |data|
+      value = data if data.key.downcase == key.downcase
+    end
 
     return nil if value.nil?
     
@@ -23,7 +27,10 @@ class Datum < ApplicationRecord
   def self.setValue(key, data, year = DateTime.now.year)
     return false if key.nil?
 
-    value = Datum.find_by('year = ? AND lower(key) = ?',year.to_s, key.downcase)
+    value = nil
+    Datum.where('year = ?',year.to_s).each do |data|
+      value = data if data.key.downcase == key.downcase
+    end
 
     value = Datum.new(key: key.downcase, year: year.to_s) if value.nil?
     
