@@ -1,6 +1,6 @@
 class Api::V2017::CanoesController < Api::V2017::ApplicationController
-  before_action :authenticate_user,  only: [:add, :info]
-  before_action :must_be_race_admin, only: [:info]
+  before_action :authenticate_user,  only: [:add, :info, :set_last]
+  before_action :must_be_race_admin, only: [:info, :set_last]
 
   def first
     number = Craft.findMinCanoeNumber
@@ -10,6 +10,15 @@ class Api::V2017::CanoesController < Api::V2017::ApplicationController
   def last
     number = Craft.findMaxCanoeNumber
     render json: number, status: 200
+  end
+
+  def set_last
+    inf = params.permit(:number)
+    if Datum.setValue('lastcanoenumber', inf[:number], DateTime.now.year)
+      render json: {message: 'Success'}.to_json, status: 200
+    else
+      render json: {message: 'Error'}.to_json, status: 406
+    end
   end
 
   def add

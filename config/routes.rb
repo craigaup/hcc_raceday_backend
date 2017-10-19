@@ -2,8 +2,11 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v2017 do
       get 'status/types', to: 'status#types'
+      post 'status/non-starters/complete/set', to: 'status#setComplete'
+      get 'status/non-starters/complete', to: 'status#getComplete'
       get 'canoes/:number/info', to: 'canoes#info'
       get 'canoes/first', to: 'canoes#first'
+      post 'canoes/last/:number/set', to: 'canoes#set_last'
       get 'canoes/last', to: 'canoes#last'
       post 'canoes/:number/:status/:checkpoint/:date_time', to: 'canoes#add'
       get 'canoes/:number/history', to: 'canoes#history'
