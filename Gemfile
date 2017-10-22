@@ -56,6 +56,7 @@ gem 'jquery-turbolinks'
 gem 'will_paginate',           '3.1.0'
 gem 'bootstrap-will_paginate', '0.0.10'
 gem 'bootstrap-sass',          '3.3.6'
+gem 'bootstrap_form',          '~> 2.7.0'
 
 gem 'delayed_job_active_record'
 

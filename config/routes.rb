@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  get 'checkpoint/overview'
+
+  get 'checkpoint/info'
+
   namespace :api do
     namespace :v2017 do
       get 'status/types', to: 'status#types'

@@ -1,0 +1,34 @@
+module CraftsHelper
+  @forw = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'\
+    .split(//)
+
+  @rev = {}
+
+  @forw.each_with_index do |x, index|
+    @rev[x.to_s] = index
+  end
+
+  @arraysize = @forw.size
+
+  def self.converttimetochar(mytime)
+    out = []
+    while (mytime > 0)
+      out.push(@forw[(mytime % @arraysize)])
+      mytime = (mytime / @arraysize).to_i
+    end
+
+    out.join('')
+  end
+
+  def self.convertchartotime(chars)
+    mytime = 0
+    value = 1
+
+    chars.split(//).each do |ch|
+      mytime += value * @rev[ch.to_s]
+      value *= @arraysize
+    end
+
+    mytime
+  end
+end
