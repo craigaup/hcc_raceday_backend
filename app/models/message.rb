@@ -2,7 +2,7 @@ class Message < ApplicationRecord
   belongs_to :user
 
   def self.get_messages(canoe_number, interval = nil,
-                        year = DateTime.zone.now.year)
+                        year = DateTime.now.in_time_zone.year)
     return {} unless canoe_number.to_s.casecmp('all').zero? \
       || canoeNumber.to_s =~ /^\d+$/
 
@@ -14,10 +14,11 @@ class Message < ApplicationRecord
     end
 
     mlist = []
+    nowtime = DateTime.now.in_time_zone
     Message.where(year: year).order('time').each do |m|
       next if since != 0 && m.time.nil?
       next if !m.time.nil? && m.time.to_i < since
-      next if !m.validtil.nil? && m.validtil < DateTime.zone.now
+      next if !m.validtil.nil? && m.validtil < nowtime
 
       hash = { messagenumber: m.id, to: m.to, from: m.from,
                time: m.message_time, priority: m.priority, ack: m.displayed,
