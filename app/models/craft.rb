@@ -272,6 +272,14 @@ class Craft < ApplicationRecord
     end
   end
 
+  def self.overallStatus(year = DateTime.now.in_time_zone.year)
+    rawdata = getAllCheckpointInfo(nil, year)
+
+    # raw
+  end
+
+
+
   def self.displayCheckpointInfo(checkpointName, interval = nil,
                                  year = DateTime.now.year)
     unless interval.nil?
@@ -443,21 +451,56 @@ class Craft < ApplicationRecord
     checkpoints = {}
     lastseen = {}
 
+    mapCheckpoint = []
+    shortName = {}
+    tmparray = []
+    Distance.where(year: DateTime.now.in_time_zone.year).each do |checkpoint|
+      mapCheckpoint[checkpoint.id] = checkpoint
+      next if checkpoint.distance.nil? || checkpoint.distance.empty?
+      tmparray[(checkpoint.distance.to_f * 1000).to_i] = checkpoint
+      shortName[checkpoint.checkpoint] = checkpoint.longname
+    end
+
+    orderedCheckpoints = {}
+    prev = nil
+    tmparray.select {|d| d unless d.nil?}.each do |d|
+      orderedCheckpoints[d.longname] = prev
+      prev = d.longname
+    end
+
+    timings = {}
+    lastdata = {}
+
     Craft.where('year = ?', year).order(:entered).each do |canoe|
       number = canoe.number
-      checkpointName = canoe.checkpoint.longname
-      distance = (canoe.checkpoint.distance.to_f * 1000).round(0).to_i
+      checkpoint = mapCheckpoint[canoe.checkpoint_id]
+      checkpointName = checkpoint.longname
+      distance = (checkpoint.distance.to_f * 1000).round(0).to_i
       if !seen.key?(checkpointName)
         seen[checkpointName] = {}
         checkpoints[checkpointName] = distance
       end
 
       lastseen[number] = checkpointName
+      lastdata[number] = canoe
       seen[checkpointName][number] = { number: number,
                                        checkpoint: checkpointName,
                                        status: canoe.status,
                                        time: canoe.time,
                                        distance: distance}
+
+      timings[checkpointName] = [] unless timings.key?(checkpointName)
+
+      if canoe.status == 'IN'
+        unless checkpoint.duesoonfrom.nil? || checkpoint.duesoonfrom.empty?
+          prevCheckpoint = shortName[checkpoint.duesoonfrom]
+          unless seen[prevCheckpoint][number].nil? \
+              && seen[prevCheckpoint][number][:time].nil?
+            diff = canoe.time - seen[prevCheckpoint][number][:time]
+            timings[checkpointName].push(diff)
+          end
+        end
+      end
 
       checkpoints.each do |tmpname, tmpdistance|
         next if seen[tmpname].key?(number)
@@ -471,7 +514,52 @@ class Craft < ApplicationRecord
                                   distance: tmpdistance}
       end
     end
+
+    averages = {}
+    timings.each do |key, array|
+      sum = 0
+      next if array.empty?
+      parray = array
+      parray = array[-10..-1] unless array.size > 10
+      parray.each {|num| sum += num }
+      averages[key] = (sum / parray.size).round(0)
+    end
+
+
+    overdue = {}
+    checksumcount = {}
+    count = {}
+    nowtime = DateTime.now.in_time_zone.to_i
+    lastdata.each do |num,canoe|
+      checkpoint = mapCheckpoint[canoe.checkpoint_id]
+      count[checkpoint.longname] = {'IN' => 0, 'OUT' => 0, 'WD' => 0} unless \
+        count.key?(checkpoint.longname)
+      status = canoe.status
+      status = 'WD' if status == 'DNS'
+      count[checkpoint.longname][status] += 1
+
+      overdue[num] = calcOverdue(status, nowtime, canoe.time.to_i, 
+                                 averages[checkpoint.longname])
+    end
+
+    seen['___timings'] = timings
+    seen['___lastseen'] = lastseen
+    seen['___lastdata'] = lastdata
+    seen['___averages'] = averages
+    seen['___overdue'] = overdue
+    seen['___count'] = count
+    seen['___orderedcheckpoints'] = orderedCheckpoints
+
     seen
+  end
+
+  def self.calcOverdue(status, currentTime, outTime, ave)
+    return false unless status == 'OUT'
+    return false if ave.nil?
+
+    # WAITTIME in minutes
+    waitTime = 15
+    (currentTime - outTime) > ave + (waitTime * 60)
   end
 
   def self.getCheckpointInformation(checkpointName, year = DateTime.now.year)
