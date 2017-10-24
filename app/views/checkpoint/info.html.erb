@@ -1,2 +1,92 @@
-<h1>Checkpoint#info</h1>
-<p>Find me in app/views/checkpoint/info.html.erb</p>
+<h1>Checkpoint <%= @checkpoint %> </h1>
+
+<table class='table table-striped table-bordered' >
+  <tr>
+    <th>
+      Can
+    </th>
+    <th>
+      In
+    </th>
+    <th>
+      out
+    </th>
+    <th>
+      Can
+    </th>
+    <th>
+      In
+    </th>
+    <th>
+      out
+    </th>
+    <th>
+      Can
+    </th>
+    <th>
+      In
+    </th>
+    <th>
+      out
+    </th>
+    <th>
+      Can
+    </th>
+    <th>
+      In
+    </th>
+    <th>
+      out
+    </th>
+    <th>
+      Can
+    </th>
+    <th>
+      In
+    </th>
+    <th>
+      out
+    </th>
+    <th>
+      Can
+    </th>
+    <th>
+      In
+    </th>
+    <th>
+      out
+    </th>
+    <th>
+      Can
+    </th>
+    <th>
+      In
+    </th>
+    <th>
+      out
+    </th>
+  </tr>
+  <% @display.each do |array| %>
+    <tr>
+      <% array.each do |num, hash| %>
+        <td>
+          <%= num %>
+        </td>
+        <td>
+          <% if hash.key?('IN') %>
+            <%= hash['IN']['time'] %>
+          <% else %>
+            &nbsp;
+          <% end %>
+        </td>
+        <td>
+          <% if hash.key?('OUT') %>
+            <%= hash['OUT']['time'] %>
+          <% else %>
+            &nbsp;
+          <% end %>
+        </td>
+      <% end %>
+    </tr>
+  <% end %>
+</table>

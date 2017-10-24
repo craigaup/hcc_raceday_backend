@@ -23,7 +23,7 @@
       <% @rawdata['___orderedcheckpoints'].each do |chkpt, prevChkpt| %>
         <tr >
           <td >
-            <%= chkpt %>
+            <%= link_to chkpt, checkpoint_info_path(chkpt) %>
           </td >
           <td >
             <%= (prevChkpt.nil? || @count[prevChkpt].nil?)?'0':@count[prevChkpt]['OUT'] %>

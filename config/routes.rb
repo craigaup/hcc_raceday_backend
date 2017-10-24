@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
   get 'checkpoint/overview'
 
-  get 'checkpoint/info'
+  get 'checkpoint/info/:checkpoint', to: 'checkpoint#info', \
+    as: 'checkpoint_info'
 
   namespace :api do
     namespace :v2017 do
