@@ -7,6 +7,7 @@ class CheckpointController < ApplicationController
 
     @count = @rawdata['___count']
     @averages = @rawdata['___averages']
+    @url = checkpoint_overview_path
   end
 
   def info
@@ -17,6 +18,7 @@ class CheckpointController < ApplicationController
     if checkpointInfo.nil?
       redirect_to checkpoint_overview_path
     end
+    @url = checkpoint_info_path(inf[:checkpoint]) 
 
     @page_title = 'Checkpoint ' + checkpointInfo.longname
     display = Craft.displayCheckpointInfo(checkpointInfo.longname)

@@ -7,8 +7,11 @@
                  @page_title
                end
     %>
-    <% unless (defined? @refresh).nil? %>
-      <META http-equiv="refresh" content="<%= @refresh %>">
+    <% unless (defined? @refresh).nil?
+      url = ''
+      url = '; URL=' + @url unless (defined? @url).nil? 
+     %>
+      <META http-equiv="refresh" content="<%= @refresh %>" <%= url %> />
     <% end %>
     <title><%= title %></title>
     <%= csrf_meta_tags %>
