@@ -2,7 +2,16 @@ class Api::V2017::ApplicationController < ApplicationController
   after_action :set_access_control_headers
 
   def set_access_control_headers
-    headers['Access-Control-Allow-Origin'] = '*'
+    # open('/tmp/out.txt', 'a') { |f| f.write( request.headers.to_h.keys.join(',') + "\n") }
+    # if request.headers['HTTP_ORIGIN'].nil?
+    #   open('/tmp/out.txt', 'a') { |f| f.write( 'No HTTP_ORIGIN' + "\n") }
+    # else
+    #   open('/tmp/out.txt', 'a') { |f| f.write( request.headers['HTTP_ORIGIN'] + "\n") }
+    # end
+
+    headers['Access-Control-Allow-Origin'] = request.headers['HTTP_ORIGIN'] \
+      || '*'
+
     headers['Access-Control-Allow-Methods'] = 'POST, PUT, DELETE, GET, OPTIONS'
     headers['Access-Control-Request-Method'] = '*'
     headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
