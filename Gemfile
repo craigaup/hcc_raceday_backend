@@ -66,3 +66,5 @@ gem 'validates_timeliness', '~> 4.0'
 group :production do
   gem 'mysql2'
 end
+
+gem 'json'

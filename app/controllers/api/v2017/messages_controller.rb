@@ -6,8 +6,8 @@ class Api::V2017::CanoesController < Api::V2017::ApplicationController
     inf = params.permit(:to, :from, :time, :priority, :message, :til)
     message = Message.new
     message.user = current_user
-    message.entered = DateTime.zone.now
-    message.year = DateTime.zone.now.year
+    message.entered = DateTime.now.in_time_zone
+    message.year = DateTime.now.in_time_zone.year
 
     message.to = inf[:to]
     message.from = inf[:from]
@@ -27,7 +27,7 @@ class Api::V2017::CanoesController < Api::V2017::ApplicationController
   def get
     inf = params.permit(:number, :interval)
     render json: Message.get_messages(inf[:number], inf[:interval], 
-                                      DateTime.zone.now.year).to_json), \
+                                      DateTime.now.in_time_zone.year).to_json), \
       status: 200
   end
 
@@ -42,7 +42,7 @@ class Api::V2017::CanoesController < Api::V2017::ApplicationController
       return json: {message: 'Input Error'}.to_json, status: 406
     end
 
-    m.displayed = DateTime.zone.now
+    m.displayed = DateTime.now.in_time_zone
     unless m.save
       return json: {message: 'Error'}.to_json, status: 406
     end
