@@ -1,4 +1,4 @@
-class Api::V2017::CanoesController < Api::V2017::ApplicationController
+class Api::V2017::MessagesController < Api::V2017::ApplicationController
   before_action :authenticate_user,  only: [:send]
   # before_action :must_be_race_admin, only: [:info, :set_last]
 
