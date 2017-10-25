@@ -27,7 +27,7 @@ class Api::V2017::CanoesController < Api::V2017::ApplicationController
   def get
     inf = params.permit(:number, :interval)
     render json: Message.get_messages(inf[:number], inf[:interval], 
-                                      DateTime.now.in_time_zone.year).to_json), \
+                                      DateTime.now.in_time_zone.year).to_json, \
       status: 200
   end
 
@@ -37,16 +37,16 @@ class Api::V2017::CanoesController < Api::V2017::ApplicationController
 
     m = Message.find_by(id: inf[:number])
     if m.nil?
-      return json: {message: 'Not found'}.to_json, status: 406
+      render json: {message: 'Not found'}.to_json, status: 406
     elsif m.to != inf[:canoe]
-      return json: {message: 'Input Error'}.to_json, status: 406
+      render json: {message: 'Input Error'}.to_json, status: 406
     end
 
     m.displayed = DateTime.now.in_time_zone
     unless m.save
-      return json: {message: 'Error'}.to_json, status: 406
+      render json: {message: 'Error'}.to_json, status: 406
     end
 
-    return json: {message: 'Success'}.to_json, status: 200
+    render json: {message: 'Success'}.to_json, status: 200
   end
 end
