@@ -15,7 +15,7 @@
 require File.dirname(__FILE__) + '/.userinitialpass.rb'
 
 userList = ['root', 'sydwest', 'start', 'alpha', 'bravo', 'charlie', 'delta',
-            'echo', 'foxtrot', 'golf', 'hotel', 'india', 'juliett', 'kilo',
+            'echo', 'foxtrot', 'golf', 'hotel', 'india', 'juliet', 'kilo',
             'lima', 'pitstop', 'mike', 'november', 'oscar', 'spencer', 'papa',
             'quebec', 'sierra', 'tango', 'finish', 'craigp', 'richard', 'doug',
             'andrew', 'chris']
