@@ -25,11 +25,11 @@ class Api::V2017::SessionController < Api::V2017::ApplicationController
   def change_password
     inf = params.permit(:login_password, :new_password,
                                 :password_confirmation)
-    authorized_user = User.authenticate(@current_user,
+    authorized_user = User.authenticate(@current_user.username,
                                         inf[:login_password])
 
     unless authorized_user
-      render json: {message: "Passwords don't match"},
+      render json: {message: "Passwords don't match!"},
         status: 401,
         location: "change_password"
       return

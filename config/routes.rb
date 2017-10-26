@@ -32,11 +32,13 @@ Rails.application.routes.draw do
     end
   end
 
-  # root :to => 'sessions#login'
-  # get 'login' => 'sessions#login', as: 'login'
-  # post 'login' => 'sessions#login_attempt', as: nil
-  # get 'logout' => 'sessions#logout', as: 'logout'
-  # get 'home' => 'sessions#home', as: 'home'
+  root :to => 'checkpoint#overview'
+  get 'login' => 'sessions#login', as: 'login'
+  post 'login' => 'sessions#login_attempt', as: nil
+  get 'logout' => 'sessions#logout', as: 'logout'
+  get 'home' => 'checkpoint#overview', as: 'home'
+  get 'change_password' => 'sessions#change_password', as: 'change_password'
+  post 'change_password' => 'sessions#change_password_attempt', as: nil
   # resources :crafts
   # resources :distances
   # resources :data

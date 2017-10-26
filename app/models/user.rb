@@ -9,6 +9,7 @@ class User < ApplicationRecord
   #validates :email, :presence => true, :uniqueness => true, :format => EMAIL_REGEX
   validates :password, :confirmation => true #password_confirmation attr
   validates_length_of :password, :in => 6..20, :on => :create
+  validate :validate_password_entry
 
   def encrypt_password
     if password.present?
@@ -42,5 +43,15 @@ class User < ApplicationRecord
 
   def israceadmin?(year=DateTime.now.year.to_s)
     return !(Raceadmin.where('user_id = ? AND year = ?', id,year.to_s) == nil)
+  end
+
+  def validate_password_entry
+    unless password.nil?
+      if password_confirmation.nil? || password != password_confirmation
+        errors.add(:password, "Passwords don't match")
+        return false
+      end
+    end
+    true
   end
 end

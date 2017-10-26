@@ -494,8 +494,9 @@ class Craft < ApplicationRecord
       if canoe.status == 'IN'
         unless checkpoint.duesoonfrom.nil? || checkpoint.duesoonfrom.empty?
           prevCheckpoint = shortName[checkpoint.duesoonfrom]
+
           unless seen[prevCheckpoint][number].nil? \
-              && seen[prevCheckpoint][number][:time].nil?
+              || seen[prevCheckpoint][number][:time].nil?
             diff = canoe.time - seen[prevCheckpoint][number][:time]
             timings[checkpointName].push(diff)
           end

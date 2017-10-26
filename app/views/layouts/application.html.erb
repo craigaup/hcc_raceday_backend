@@ -21,6 +21,26 @@
   </head>
 
   <body>
+      <% if notice %>
+        <div class="row">
+          <div class="panel panel-info">
+            <div class="panel-heading">Notices</div>
+            <div class="panel-body"><%= notice %></div>
+            <!--<div class="panel-footer">footer, if required</div>-->
+          </div>
+        </div>
+      <% end %>
+
+      <% if alert %>
+        <div class="row">
+          <div class="panel panel-danger">
+            <div class="panel-heading">Alerts</div>
+            <div class="panel-body"><%= alert %></div>
+            <!--<div class="panel-footer">footer, if required</div>-->
+          </div>
+        </div>
+      <% end %>
+  
     <%= yield %>
   </body>
 </html>
