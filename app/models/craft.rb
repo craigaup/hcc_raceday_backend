@@ -519,8 +519,10 @@ class Craft < ApplicationRecord
     timings.each do |key, array|
       sum = 0
       next if array.empty?
+      next if array.nil?
+
       parray = array
-      parray = array[-10..-1] unless array.size > 10
+      parray = array[-10..-1] if array.size > 10
       parray.each {|num| sum += num }
       averages[key] = (sum / parray.size).round(0)
     end
