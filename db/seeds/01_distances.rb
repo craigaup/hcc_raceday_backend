@@ -7,7 +7,7 @@ distances = {
 
 checkpointNames = {'ST': 'Start', 'A': 'Alpha', 'B': 'Bravo', 'C': 'Charlie',
                    'D': 'Delta', 'E': 'Echo', 'F': 'Foxtrot', 'G': 'Golf',
-                   'H': 'Hotel', 'I': 'India', 'J': 'Juliett', 'K': 'Kilo',
+                   'H': 'Hotel', 'I': 'India', 'J': 'Juliet', 'K': 'Kilo',
                    'L': 'Lima', 'PIT': 'Pitstop', 'M': 'Mike', 'N': 'November',
                    'O': 'Oscar', 'SP': 'Spencer', 'P': 'Papa', 'Q': 'Quebec',
                    'S': 'Sierra', 'T': 'Tango', 'FIN': 'Finish'}
