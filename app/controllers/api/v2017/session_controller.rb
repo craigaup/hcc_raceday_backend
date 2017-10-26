@@ -29,7 +29,7 @@ class Api::V2017::SessionController < Api::V2017::ApplicationController
                                         inf[:login_password])
 
     unless authorized_user
-      render json: {message: "Invalid user or password"},
+      render json: {message: "Passwords don't match"},
         status: 401,
         location: "change_password"
       return
@@ -43,8 +43,7 @@ class Api::V2017::SessionController < Api::V2017::ApplicationController
       return
     end
 
-    render json: {message: 'Success'}, status: 200,
-      location: "change_password"
+    render json: {message: 'Success'}, status: 200
   end
   private
   def user_params
