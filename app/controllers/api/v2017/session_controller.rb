@@ -1,4 +1,6 @@
 class Api::V2017::SessionController < Api::V2017::ApplicationController
+  before_action :authenticate_user,  only: [:change_password]
+
   def login
     authorized_user = User.authenticate(user_params[:username],user_params[:login_password])
     if authorized_user
@@ -20,6 +22,30 @@ class Api::V2017::SessionController < Api::V2017::ApplicationController
       location: 'login'
   end
 
+  def change_password
+    inf = params.permit(:login_password, :new_password,
+                                :password_confirmation)
+    authorized_user = User.authenticate(@current_user,
+                                        inf[:login_password])
+
+    unless authorized_user
+      render json: {message: "Invalid user or password"},
+        status: 401,
+        location: "change_password"
+      return
+    end
+
+    @current_user.password = inf[:new_password]
+    @current_user.password_confirmation = inf[:password_confirmation]
+    unless @current_user.save
+      render json: {message: @current_user.errors.messages}, status: 406,
+        location: "change_password"
+      return
+    end
+
+    render json: {message: 'Success'}, status: 200,
+      location: "change_password"
+  end
   private
   def user_params
     params.permit(:username,:login_password)
