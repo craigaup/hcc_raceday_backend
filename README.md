@@ -29,8 +29,7 @@ gem install rails
 
 Create user for running the raceday system
 ```bash
-useradd -u 2004 -c 'Raceday Simulator' -m -d '/home/raceday_sim' raceday_sim
-useradd -u 2005 -c 'Raceday Production' -m -d '/home/raceday_prod' raceday_prod
+useradd -u 2005 -c 'Raceday Production' -m -d '/home/raceday_prod' -s `which bash` raceday_prod
 ```
 
 On debian or ubuntu
@@ -82,7 +81,7 @@ create database raceday_prod;
 grant all privileges on raceday_prod.* to 'raceday_prod'@'%';
 ```
 
-bundle install --without=mysql2:production:sging --with=development --path vendor/gems
+bundle install --with=mysql2:production --without=development --path vendor/gems
 
 Create server_variables.sh using server_variables.sh.template file
 Edit and add values
@@ -94,5 +93,5 @@ Make sure to add a file in 'db/seeds/.userinitialpass.rb' there is a template of
 . ./server_variables.sh && rails db:seed
 
 As root 
-a2ensite raceday_sim
+a2ensite raceday_prod
 service apache2 restart
