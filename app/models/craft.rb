@@ -689,10 +689,21 @@ class Craft < ApplicationRecord
   def self.finish_info(year = DateTime.now.in_time_zone.year)
     data = Craft.getAllCheckpointHistory(nil, year)
     output = {}
-    data['___lastseen'].each do |num, ckpoint|
-      next if data[ckpoint].nil?
-      output[num] = { distance: data[ckpoint][num][:distance],
-                      time: data[ckpoint][num][:time] }
+    tmparray = []
+
+    Distance.where(year: DateTime.now.in_time_zone.year).each do |checkpoint|
+      next if checkpoint.distance.nil? || checkpoint.distance.empty?
+      tmparray[(checkpoint.distance.to_f * 1000).to_i] = checkpoint
+    end
+    cporder = tmparray.select {|c| c unless c.nil?}.map {|c| c.longname}
+
+    (Craft.findMinCanoeNumber..Craft.findMaxCanoeNumber).each do |num|
+      cporder.reverse.each do |ckpoint|
+        next if data[ckpoint].nil? || data[ckpoint][num].nil?
+        output[num] = { distance: data[ckpoint][num][:distance],
+                        time: data[ckpoint][num][:time] }
+        break
+      end
     end
 
     output
