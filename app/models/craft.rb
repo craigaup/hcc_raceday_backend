@@ -127,7 +127,8 @@ class Craft < ApplicationRecord
         lastseen[number] = {}
       end
 
-      if !lastseen[number].key?(checkpointName)
+      if !lastseen[number].key?(checkpointName) \
+          || canoe.status == 'DNS'
         lastseen[number][checkpointName] = []
       end
 
@@ -725,7 +726,6 @@ class Craft < ApplicationRecord
       return if element.key?(:shortname) && element[:shortname] == status
     end
   end
-
 
   def checkStatusIsValid
     statusList = Datum.statusList
