@@ -6,6 +6,7 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v2017 do
+      get 'canoes/finish-info', to: 'canoes#finish_info'
       get 'status/types', to: 'status#types'
       post 'status/non-starters/complete/set', to: 'status#setComplete'
       get 'status/non-starters/complete', to: 'status#getComplete'

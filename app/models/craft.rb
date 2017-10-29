@@ -686,6 +686,18 @@ class Craft < ApplicationRecord
     checkpointView
   end
 
+  def self.finish_info(year = DateTime.now.in_time_zone.year)
+    data = Craft.getAllCheckpointHistory(nil, year)
+    output = {}
+    data['___lastseen'].each do |num, ckpoint|
+      next if data[ckpoint].nil?
+      output[num] = { distance: data[ckpoint][num][:distance],
+                      time: data[ckpoint][num][:time] }
+    end
+
+    output
+  end
+
   private
   def isLate?(defaultAverageSpeed = 15)
   end

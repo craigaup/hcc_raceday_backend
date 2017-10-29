@@ -205,6 +205,10 @@ class Api::V2017::CanoesController < Api::V2017::ApplicationController
                          checksumtype)
   end
 
+  def finish_info
+    render json: Craft.finish_info.to_json, status: 200
+  end
+
   def withdrawal_list
     checkpoints = []
 
