@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_filter :save_login_state, :only => [:new, :create]
+  before_action :save_login_state, :only => [:new, :create]
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
   # GET /users

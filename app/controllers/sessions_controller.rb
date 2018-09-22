@@ -1,7 +1,7 @@
 class SessionsController < ApplicationController
-  before_filter :authenticate_user, :only => [:change_password, 
+  before_action :authenticate_user, :only => [:change_password, 
                                               :change_password_attempt]
-  before_filter :save_login_state, :only => [:login, :login_attempt]
+  before_action :save_login_state, :only => [:login, :login_attempt]
 
   def login
   end
