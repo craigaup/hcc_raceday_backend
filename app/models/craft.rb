@@ -475,7 +475,7 @@ class Craft < ApplicationRecord
     Craft.where('year = ?', year).order(:entered).each do |canoe|
       number = canoe.number
       checkpoint = mapCheckpoint[canoe.checkpoint_id]
-      checkpointName = checkpoint.longname
+      checkpointName = checkpoint&.longname
       distance = (checkpoint.distance.to_f * 1000).round(0).to_i
       if !seen.key?(checkpointName)
         seen[checkpointName] = {}

@@ -9,7 +9,7 @@
     %>
     <% unless (defined? @refresh).nil?
       url = ''
-      url = '; URL=' + @url unless (defined? @url).nil? 
+      url = ('; URL="' + @url + '"').html_safe unless (defined? @url).nil? 
      %>
       <META http-equiv="refresh" content="<%= @refresh %>" <%= url %> />
     <% end %>

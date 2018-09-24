@@ -1,90 +1,44 @@
 <h1>Checkpoint <%= @checkpoint %> </h1>
 
-<table class='table table-striped table-bordered' >
-  <tr>
-    <th>
-      Can
-    </th>
-    <th>
-      In
-    </th>
-    <th>
-      out
-    </th>
-    <th>
-      Can
-    </th>
-    <th>
-      In
-    </th>
-    <th>
-      out
-    </th>
-    <th>
-      Can
-    </th>
-    <th>
-      In
-    </th>
-    <th>
-      out
-    </th>
-    <th>
-      Can
-    </th>
-    <th>
-      In
-    </th>
-    <th>
-      out
-    </th>
-    <th>
-      Can
-    </th>
-    <th>
-      In
-    </th>
-    <th>
-      out
-    </th>
-    <th>
-      Can
-    </th>
-    <th>
-      In
-    </th>
-    <th>
-      out
-    </th>
-    <th>
-      Can
-    </th>
-    <th>
-      In
-    </th>
-    <th>
-      out
-    </th>
+<table class="table table-striped table-bordered" >
+  <tr class="info1" >
+    <% (1..@display[0].size).each do |column| %>
+      <th class="infoheader">
+        Can
+      </th>
+      <th class="infoheader">
+        In
+      </th>
+      <th class="infoheader">
+        Out
+      </th>
+    <% end %>
   </tr>
   <% @display.each do |array| %>
-    <tr>
+    <tr class="info1" >
       <% array.each do |num, hash| %>
-        <td>
+        <td class="infoheader">
           <%= num %>
         </td>
-        <td>
-          <% if hash.key?('IN') %>
-            <%= hash['IN']['time'] %>
-          <% else %>
-            &nbsp;
-          <% end %>
+        <% if hash.key?('IN')
+             text = hash['IN']['time'] 
+             myclass = hash['IN']['status'] 
+           else
+             text = '&nbsp;'.html_safe
+             myclass = 'BLANK'
+        end %>
+        <td class="<%= myclass %>" >
+              <%= text.html_safe %>
         </td>
-        <td>
-          <% if hash.key?('OUT') %>
-            <%= hash['OUT']['time'] %>
-          <% else %>
-            &nbsp;
-          <% end %>
+        <% if hash.key?('OUT')
+             text = hash['OUT']['time'] 
+             myclass = hash['OUT']['status'] 
+           else
+             text = '&nbsp;'
+             myclass = 'BLANK'
+        end %>
+        <td class="<%= myclass %>" >
+              <%= text.html_safe %>
         </td>
       <% end %>
     </tr>

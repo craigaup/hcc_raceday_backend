@@ -7,7 +7,7 @@ class CheckpointController < ApplicationController
 
     @count = @rawdata['___count']
     @averages = @rawdata['___averages']
-    @url = checkpoint_overview_path
+    @url = checkpoint_overview_url
   end
 
   def info
@@ -18,17 +18,29 @@ class CheckpointController < ApplicationController
     if checkpointInfo.nil?
       redirect_to checkpoint_overview_path
     end
-    @url = checkpoint_info_path(inf[:checkpoint]) 
+    @url = checkpoint_info_url(inf[:checkpoint]) 
 
     @page_title = 'Checkpoint ' + checkpointInfo.longname
     display = Craft.displayCheckpointInfo(checkpointInfo.longname)
     
+    @min = 1000
+    @max = 0
+    display.keys.each do |num|
+      @min = num if num < @min
+      @max = num if num > @max
+    end
+
     @checkpoint = checkpointInfo.longname
 
     @display = []
     count = 0
-    modulus = ((display.size / 7.0) + 0.5).round
-    display.each do |canoe|
+    (@min..@max).each do |canoe|
+      display[canoe] = {} unless display.key?(canoe)
+    end
+
+    @columns = 13.0
+    modulus = ((display.size / @columns) + 0.5).round
+    display.sort.each do |canoe|
       y = (count / modulus).to_i
       x = (count % modulus)
 
@@ -37,5 +49,7 @@ class CheckpointController < ApplicationController
 
       count += 1
     end
+
+    #byebug
   end
 end
