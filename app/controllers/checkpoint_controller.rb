@@ -33,6 +33,7 @@ class CheckpointController < ApplicationController
     @checkpoint = checkpointInfo.longname
 
     @display = []
+    @display[0] = []
     count = 0
     (@min..@max).each do |canoe|
       display[canoe] = {} unless display.key?(canoe)
