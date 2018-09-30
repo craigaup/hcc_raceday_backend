@@ -7,7 +7,9 @@ class Distance < ApplicationRecord
                         shortname: tmpdist.checkpoint,
                         longname: tmpdist.longname,
                         distance: tmpdist.distance,
-                        duesoonfrom: tmpdist.duesoonfrom})
+                        duesoonfrom: tmpdist.duesoonfrom,
+                        latitude: tmpdist.latitude,
+                        longitude: tmpdist.longitude})
     end
     checkpoints
   end

@@ -1,11 +1,210 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+#
 
-one:
-  year: 1
-  checkpoint: MyString
-  distance: MyString
+Start:
+  year: 2017
+  checkpoint: "ST"
+  distance: "0"
+  longname: "Start"
+  duesoonfrom: ""
+  latitude: "33o 36' 8.04\" S"
+  longitude: "150o 49' 11.28\" E"
 
-two:
-  year: 1
-  checkpoint: MyString
-  distance: MyString
+Alpha:
+  year: 2017
+  checkpoint: "A"
+  distance: "12.4"
+  longname: "Alpha"
+  duesoonfrom: "ST"
+  latitude: "33o 33' 38.52\" S"
+  longitude: "150o 53' 24.78\" E"
+
+Bravo:
+  year: 2017
+  checkpoint: "B"
+  distance: "17.9"
+  longname: "Bravo"
+  duesoonfrom: "A"
+  latitude: "33o 30' 45.18\" S"
+  longitude: "150o 53' 53.7\" E"
+
+Charlie:
+  year: 2017
+  checkpoint: "C"
+  distance: "24.2"
+  longname: "Charlie"
+  duesoonfrom: "B"
+  latitude: "33o 30' 30.18\" S"
+  longitude: "150o 55' 37.98\" E"
+
+Delta:
+  year: 2017
+  checkpoint: "D"
+  distance: "31.2"
+  longname: "Delta"
+  duesoonfrom: "C"
+  latitude: "33o 30' 0.06\" S"
+  longitude: "150o 52' 18.18\" E"
+
+Echo:
+  year: 2017
+  checkpoint: "E"
+  distance: "40.8"
+  longname: "Echo"
+  duesoonfrom: "D"
+  latitude: "33o 27' 45.9\" S"
+  longitude: "150o 54' 7.32\" E"
+
+Foxtrot:
+  year: 2017
+  checkpoint: "F"
+  distance: "47.4"
+  longname: "Foxtrot"
+  duesoonfrom: "E"
+  latitude: "33o 26' 5.5464\" S"
+  longitude: "150o 54' 5.4858\" E"
+
+Golf:
+  year: 2017
+  checkpoint: "G"
+  distance: "54"
+  longname: "Golf"
+  duesoonfrom: "F"
+  latitude: "33o 25' 48.36\" S"
+  longitude: "150o 55' 18.66\" E"
+
+Hotel:
+  year: 2017
+  checkpoint: "H"
+  distance: "59"
+  longname: "Hotel"
+  duesoonfrom: "G"
+  latitude: "33o 25' 41.16\" S"
+  longitude: "150o 56' 58.32\" E"
+
+India:
+  year: 2017
+  checkpoint: "I"
+  distance: "65"
+  longname: "India"
+  duesoonfrom: "H"
+  latitude: "33o 23' 47.4\" S"
+  longitude: "150o 58' 55.32\" E"
+
+Juliet:
+  year: 2017
+  checkpoint: "J"
+  distance: "71"
+  longname: "Juliet"
+  duesoonfrom: "I"
+  latitude: "33o 24' 1.5\" S"
+  longitude: "150o 59' 53.76\" E"
+
+Kilo:
+  year: 2017
+  checkpoint: "K"
+  distance: "77"
+  longname: "Kilo"
+  duesoonfrom: "J"
+  latitude: "33o 25' 42.24\" S"
+  longitude: "151o 2' 12.3\" E"
+
+Lima:
+  year: 2017
+  checkpoint: "L"
+  distance: "81.6"
+  longname: "Lima"
+  duesoonfrom: "K"
+  latitude: "33o 27' 6.18\" S"
+  longitude: "151o 3' 49.68\" E"
+
+Pitstop:
+  year: 2017
+  checkpoint: "PIT"
+  distance: ""
+  longname: "Pitstop"
+  duesoonfrom: ""
+  latitude: "33o 26' 51.72\" S"
+  longitude: "151o 4' 41.76\" E"
+
+Mike:
+  year: 2017
+  checkpoint: "M"
+  distance: "88.2"
+  longname: "Mike"
+  duesoonfrom: "L"
+  latitude: "33o 28' 25.74\" S"
+  longitude: "151o 5' 17.22\" E"
+
+November:
+  year: 2017
+  checkpoint: "N"
+  distance: "93.5"
+  longname: "November"
+  duesoonfrom: "M"
+  latitude: "33o 27' 54\" S"
+  longitude: "151o 7' 10.14\" E"
+
+Spencer:
+  year: 2017
+  checkpoint: "SP"
+  distance: "98.5"
+  longname: "Spencer"
+  duesoonfrom: "M"
+  latitude: "33o 27' 36.18\" S"
+  longitude: "151o 8' 53.7\" E"
+
+Oscar:
+  year: 2017
+  checkpoint: "O"
+  distance: "98.5"
+  longname: "Oscar"
+  duesoonfrom: "M"
+  latitude: "33o 27' 44.82\" S"
+  longitude: "151o 9' 24.84\" E"
+
+Papa:
+  year: 2017
+  checkpoint: "P"
+  distance: "102.5"
+  longname: "Papa"
+  duesoonfrom: "O"
+  latitude: "33o 29' 14.82\" S"
+  longitude: "151o 9' 7.02\" E"
+
+Quebec:
+  year: 2017
+  checkpoint: "Q"
+  distance: "106.2"
+  longname: "Quebec"
+  duesoonfrom: "P"
+  latitude: "33o 30' 48.84\" S"
+  longitude: "151o 9' 38.1\" E"
+
+Sierra:
+  year: 2017
+  checkpoint: "S"
+  distance: "109.5"
+  longname: "Sierra"
+  duesoonfrom: "Q"
+  latitude: "33o 30' 49.92\" S"
+  longitude: "151o 10' 27.24\" E"
+
+Tango:
+  year: 2017
+  checkpoint: "T"
+  distance: "110"
+  longname: "Tango"
+  duesoonfrom: "Q"
+  latitude: "33o 31' 25.32\" S"
+  longitude: "151o 11' 1.68\" E"
+
+Finish:
+  year: 2017
+  distance: "111"
+  checkpoint: "FIN"
+  longname: "Finish"
+  duesoonfrom: "Q"
+  latitude: "33o 32' 3.66\" S"
+  longitude: "151o 11' 52.86\" E"
+
