@@ -95,9 +95,9 @@ class UserTest < ActiveSupport::TestCase
     assert ouser.israceadmin?(2017)
   end
 
-  test 'self.' do
+  # test 'self.' do
   # test 'self.' do
   #  User.send(:public, :getTimeFormat)
-byebug
-  end
+  # byebug
+  # end
 end
