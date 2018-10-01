@@ -7,7 +7,7 @@ class CheckpointControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get info" do
-    get checkpoint_info_url
+    get checkpoint_info_url('Alpha')
     assert_response :success
   end
 

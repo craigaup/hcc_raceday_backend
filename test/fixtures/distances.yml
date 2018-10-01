@@ -2,7 +2,7 @@
 #
 
 Start:
-  year: 2017
+  year: <%= DateTime.now.in_time_zone.year %>
   checkpoint: "ST"
   distance: "0"
   longname: "Start"
@@ -11,7 +11,7 @@ Start:
   longitude: "150o 49' 11.28\" E"
 
 Alpha:
-  year: 2017
+  year: <%= DateTime.now.in_time_zone.year %>
   checkpoint: "A"
   distance: "12.4"
   longname: "Alpha"
@@ -20,7 +20,7 @@ Alpha:
   longitude: "150o 53' 24.78\" E"
 
 Bravo:
-  year: 2017
+  year: <%= DateTime.now.in_time_zone.year %>
   checkpoint: "B"
   distance: "17.9"
   longname: "Bravo"
@@ -29,7 +29,7 @@ Bravo:
   longitude: "150o 53' 53.7\" E"
 
 Charlie:
-  year: 2017
+  year: <%= DateTime.now.in_time_zone.year %>
   checkpoint: "C"
   distance: "24.2"
   longname: "Charlie"
@@ -38,7 +38,7 @@ Charlie:
   longitude: "150o 55' 37.98\" E"
 
 Delta:
-  year: 2017
+  year: <%= DateTime.now.in_time_zone.year %>
   checkpoint: "D"
   distance: "31.2"
   longname: "Delta"
@@ -47,7 +47,7 @@ Delta:
   longitude: "150o 52' 18.18\" E"
 
 Echo:
-  year: 2017
+  year: <%= DateTime.now.in_time_zone.year %>
   checkpoint: "E"
   distance: "40.8"
   longname: "Echo"
@@ -56,7 +56,7 @@ Echo:
   longitude: "150o 54' 7.32\" E"
 
 Foxtrot:
-  year: 2017
+  year: <%= DateTime.now.in_time_zone.year %>
   checkpoint: "F"
   distance: "47.4"
   longname: "Foxtrot"
@@ -65,7 +65,7 @@ Foxtrot:
   longitude: "150o 54' 5.4858\" E"
 
 Golf:
-  year: 2017
+  year: <%= DateTime.now.in_time_zone.year %>
   checkpoint: "G"
   distance: "54"
   longname: "Golf"
@@ -74,7 +74,7 @@ Golf:
   longitude: "150o 55' 18.66\" E"
 
 Hotel:
-  year: 2017
+  year: <%= DateTime.now.in_time_zone.year %>
   checkpoint: "H"
   distance: "59"
   longname: "Hotel"
@@ -83,7 +83,7 @@ Hotel:
   longitude: "150o 56' 58.32\" E"
 
 India:
-  year: 2017
+  year: <%= DateTime.now.in_time_zone.year %>
   checkpoint: "I"
   distance: "65"
   longname: "India"
@@ -92,7 +92,7 @@ India:
   longitude: "150o 58' 55.32\" E"
 
 Juliet:
-  year: 2017
+  year: <%= DateTime.now.in_time_zone.year %>
   checkpoint: "J"
   distance: "71"
   longname: "Juliet"
@@ -101,7 +101,7 @@ Juliet:
   longitude: "150o 59' 53.76\" E"
 
 Kilo:
-  year: 2017
+  year: <%= DateTime.now.in_time_zone.year %>
   checkpoint: "K"
   distance: "77"
   longname: "Kilo"
@@ -110,7 +110,7 @@ Kilo:
   longitude: "151o 2' 12.3\" E"
 
 Lima:
-  year: 2017
+  year: <%= DateTime.now.in_time_zone.year %>
   checkpoint: "L"
   distance: "81.6"
   longname: "Lima"
@@ -119,7 +119,7 @@ Lima:
   longitude: "151o 3' 49.68\" E"
 
 Pitstop:
-  year: 2017
+  year: <%= DateTime.now.in_time_zone.year %>
   checkpoint: "PIT"
   distance: ""
   longname: "Pitstop"
@@ -128,7 +128,7 @@ Pitstop:
   longitude: "151o 4' 41.76\" E"
 
 Mike:
-  year: 2017
+  year: <%= DateTime.now.in_time_zone.year %>
   checkpoint: "M"
   distance: "88.2"
   longname: "Mike"
@@ -137,7 +137,7 @@ Mike:
   longitude: "151o 5' 17.22\" E"
 
 November:
-  year: 2017
+  year: <%= DateTime.now.in_time_zone.year %>
   checkpoint: "N"
   distance: "93.5"
   longname: "November"
@@ -146,7 +146,7 @@ November:
   longitude: "151o 7' 10.14\" E"
 
 Spencer:
-  year: 2017
+  year: <%= DateTime.now.in_time_zone.year %>
   checkpoint: "SP"
   distance: "98.5"
   longname: "Spencer"
@@ -155,7 +155,7 @@ Spencer:
   longitude: "151o 8' 53.7\" E"
 
 Oscar:
-  year: 2017
+  year: <%= DateTime.now.in_time_zone.year %>
   checkpoint: "O"
   distance: "98.5"
   longname: "Oscar"
@@ -164,7 +164,7 @@ Oscar:
   longitude: "151o 9' 24.84\" E"
 
 Papa:
-  year: 2017
+  year: <%= DateTime.now.in_time_zone.year %>
   checkpoint: "P"
   distance: "102.5"
   longname: "Papa"
@@ -173,7 +173,7 @@ Papa:
   longitude: "151o 9' 7.02\" E"
 
 Quebec:
-  year: 2017
+  year: <%= DateTime.now.in_time_zone.year %>
   checkpoint: "Q"
   distance: "106.2"
   longname: "Quebec"
@@ -182,7 +182,7 @@ Quebec:
   longitude: "151o 9' 38.1\" E"
 
 Sierra:
-  year: 2017
+  year: <%= DateTime.now.in_time_zone.year %>
   checkpoint: "S"
   distance: "109.5"
   longname: "Sierra"
@@ -191,7 +191,7 @@ Sierra:
   longitude: "151o 10' 27.24\" E"
 
 Tango:
-  year: 2017
+  year: <%= DateTime.now.in_time_zone.year %>
   checkpoint: "T"
   distance: "110"
   longname: "Tango"
@@ -200,7 +200,7 @@ Tango:
   longitude: "151o 11' 1.68\" E"
 
 Finish:
-  year: 2017
+  year: <%= DateTime.now.in_time_zone.year %>
   distance: "111"
   checkpoint: "FIN"
   longname: "Finish"
