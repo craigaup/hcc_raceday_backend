@@ -1,17 +1,37 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  number: 1
+  number: 100
   year: 1
-  status: MyString
-  time: 
-  entered: 
+  status: 'IN'
+  checkpoint: 'Alpha'
+  time: '4/4/2017 13:00:00'
+  entered: '4/4/2017 13:00:00'
   user: one
 
 two:
-  number: 1
+  number: 101
   year: 1
-  status: MyString
-  time: 
-  entered: 
+  status: 'IN'
+  checkpoint: 'Alpha'
+  time: '4/4/2017 13:00:01'
+  entered: '4/4/2017 13:00:01'
+  user: two
+
+oneout:
+  number: 100
+  year: 1
+  status: 'OUT'
+  checkpoint: 'Alpha'
+  time: '4/4/2017 13:00:02'
+  entered: '4/4/2017 13:00:02'
+  user: one
+
+twoout:
+  number: 101
+  year: 1
+  status: 'OUT'
+  checkpoint: 'Alpha'
+  time: '4/4/2017 13:00:03'
+  entered: '4/4/2017 13:00:03'
   user: two

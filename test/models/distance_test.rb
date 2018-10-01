@@ -32,7 +32,7 @@ class DistanceTest < ActiveSupport::TestCase
     end
   end
 
-  test 'getAllCheckpointInformation' do
+  test 'self.getAllCheckpointInformation' do
     dists = Distance.getAllCheckpointInformation
 
     assert_equal dists.map {|d| d[:shortname] }.sort, ["A",
@@ -74,7 +74,7 @@ class DistanceTest < ActiveSupport::TestCase
 
   end
 
-  test 'findCheckpointEntry' do
+  test 'self.findCheckpointEntry' do
     assert_nil Distance.findCheckpointEntry('Zulu')
     assert_not_nil Distance.findCheckpointEntry('Zulu',2017)
 
@@ -82,4 +82,18 @@ class DistanceTest < ActiveSupport::TestCase
     assert_equal Distance.findCheckpointEntry('Alpha'), distances(:Alpha)
     assert_equal Distance.findCheckpointEntry('A'), distances(:Alpha)
   end
+
+  test 'self.getCheckpointMapping' do
+    chk = { 10 => 'a', 11 => 'b', 12 => 'c', 13 => 'd', 14 => 'e'}
+    tmpchk = chk
+    assert_equal Distance.getCheckpointMapping(tmpchk), chk
+
+    tmpchk = []
+    chk.each do |id, chk|
+      tmpchk[id] = chk
+    end
+    assert_equal Distance.getCheckpointMapping(tmpchk), chk
+
+  end
+
 end
