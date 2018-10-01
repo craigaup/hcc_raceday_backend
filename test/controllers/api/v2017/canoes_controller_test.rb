@@ -11,9 +11,9 @@ class Api::V2017::CanoesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "should get add" do
-    get api_v2017_canoes_add_url
-    assert_response :success
-  end
+  # test "should get add" do
+  #   get api_v2017_canoes_add_url
+  #   assert_response :success
+  # end
 
 end
