@@ -20,11 +20,12 @@ class User < ApplicationRecord
 
   def isCheckpoint?
     checkpoint = Distance.where('lower(longname) = lower(?)', username)
-    !checkpoint.nil?
+    !checkpoint.empty?
   end
 
   def clear_password
       self.password = nil
+      self.password_confirmation = nil
   end
 
   def self.authenticate(username="", login_password="")
@@ -42,13 +43,23 @@ class User < ApplicationRecord
   end
 
   def israceadmin?(year=DateTime.now.year.to_s)
-    return !(Raceadmin.where('user_id = ? AND year = ?', id,year.to_s) == nil)
+    return !(Raceadmin.where('user_id = ? AND year = ?', id,year.to_s).empty?)
   end
 
   def validate_password_entry
     unless password.nil?
       if password_confirmation.nil? || password != password_confirmation
         errors.add(:password, "Passwords don't match")
+        return false
+      end
+      if password.blank?
+        errors.add(:password, "Passwords is blank")
+        return false
+      elsif password.size < 6 
+        errors.add(:password, "Passwords is less than 6 characters")
+        return false
+      elsif password.size > 20
+        errors.add(:password, "Passwords is greater than 20 characters")
         return false
       end
     end

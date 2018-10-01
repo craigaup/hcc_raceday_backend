@@ -1,13 +1,13 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  username: MyString
-  name: MyString
+  username: one
+  name: One
   encrypted_password: MyString
   salt: MyString
 
 two:
-  username: MyString
-  name: MyString
+  username: two
+  name: Two
   encrypted_password: MyString
   salt: MyString

@@ -1,9 +1,9 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  year: 
+  year: <%= DateTime.now.in_time_zone.year %>
   user: one
 
 two:
-  year: 
+  year: 2017
   user: two
