@@ -23,6 +23,7 @@ th.infoheader {font: 8.5px Verdana; font-weight: bold;}
 td.infoheader {font: 8.5px Verdana; font-weight: bold;}
 td.info1 {font: 8.5px Verdana;}
 td.DUESOON {font: 8.5px Verdana; color: #007f00;}
+td.SKIPPED {font: 8.5px Verdana; color: #0000ff; font-weight: bold}
 td.IN {font: 8.5px Verdana; color: #0000ff;}
 td.OUT {font: 8.5px Verdana; color: #0000ff;}
 td.DNS {font: 8.5px Verdana; color: #ff0000;}
