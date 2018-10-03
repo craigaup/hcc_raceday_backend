@@ -42,29 +42,6 @@ ruby /usr/bin/passenger-install-apache2-module --apxs2-path=/usr/bin/apxs
 - Add in ports to /etc/apache2/ports.conf file
 - Log in as raceday user
 
-Generate put key in gitlab (should be in deploy keys):
-
-```text
-ssh-keygen -b 4096 -f .ssh/gitlab_key -N ''
-```
-
-Add following to `.ssh/config`:
-
-```text
-Host baltig.cobradah.org
-    IdentitiesOnly yes
-    User git
-    IdentityFile /home/raceday_prod/.ssh/gitlab_keyi
-    Hostname baltig.cobradah.org
-    Port 22252
-    ForwardX11 no
-```
-
-Clone repository:
-```text
-git clone git@baltig.cobradah.org:hcc/hccraceday.git
-```
-
 Create database:
 
 ```text
