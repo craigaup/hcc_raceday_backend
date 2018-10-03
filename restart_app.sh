@@ -1,5 +1,3 @@
-:
-
 . ./server_variables.sh
 
 bundle install --deployment
