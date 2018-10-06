@@ -1,4 +1,11 @@
 Rails.application.routes.draw do
+  namespace :api do
+    namespace :v2018 do
+      get 'lora/send', to: 'lora#sendData'
+      post 'lora/send', to: 'lora#sendData'
+    end
+  end
+
   get 'checkpoint/overview'
 
   get 'checkpoint/info/:checkpoint', to: 'checkpoint#info', \
