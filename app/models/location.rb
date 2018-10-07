@@ -29,8 +29,10 @@ class Location < ApplicationRecord
       if data.key?(l.number)
         if data[l.number][:time] < l.time
           data[l.number][:time] = l.time
-          data[l.number][:longitude] = l.longitude.to_f.round(precision).to_s
-          data[l.number][:latitude] = l.latitude.to_f.round(precision).to_s
+          data[l.number][:longitude] = Location.convert(l.longitude).to_f\
+            .round(precision).to_s
+          data[l.number][:latitude] = Location.convert(l.latitude).to_f\
+            .round(precision).to_s
         end
       else
         data[l.number] = {}

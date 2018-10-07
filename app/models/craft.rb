@@ -2,6 +2,8 @@ class Craft < ApplicationRecord
   belongs_to :user, optional: false
   belongs_to :checkpoint, class_name: 'Distance', optional: false
 
+  after_save :add_location
+
   before_validation :setStatus
   validate :checkCanoeNumberValue
   validate :checkStatusIsValid
@@ -745,5 +747,14 @@ class Craft < ApplicationRecord
 
     errors.add(:status, :invalid_value,
                message: 'is not a valid entry')
+  end
+
+  def add_location
+    longitude = Location.convert(checkpoint.longitude)
+    latitude = Location.convert(checkpoint.latitude)
+    
+    Location.create(number: number, latitude: latitude, longitude: longitude,
+                    time: DateTime.now.in_time_zone)
+
   end
 end
