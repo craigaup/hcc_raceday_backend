@@ -39,7 +39,7 @@ class CheckpointController < ApplicationController
       display[canoe] = {} unless display.key?(canoe)
     end
 
-    @columns = 13.0
+    @columns = 12.0
     modulus = ((display.size / @columns) + 0.5).round
     display.sort.each do |canoe|
       y = (count / modulus).to_i
