@@ -65,6 +65,11 @@ class Location < ApplicationRecord
         if count % 2 == 0
           hash[:longitude] = (hash[:longitude].to_f - accuracy.to_f).to_s
           hash[:latitude] = (hash[:latitude].to_f + accuracy.to_f).to_s
+
+          location = hash[:longitude] + ',' + hash[:latitude]
+          if found.key?(location)
+            hash[:longitude] = (hash[:longitude].to_f + accuracy.to_f).to_s
+          end
         else
           hash[:longitude] = (hash[:longitude].to_f + accuracy.to_f).to_s
         end
