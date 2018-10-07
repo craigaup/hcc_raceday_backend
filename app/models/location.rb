@@ -53,7 +53,11 @@ class Location < ApplicationRecord
     found = {}
     data = {}
 
-    list.sort.to_h.each do |key, hash|
+    key_list = list.keys.select {|k| k if k.is_a?(String)}
+    key_list += list.keys.select {|k| k if k.is_a?(Integer)}.sort
+    
+    key_list.each do |key|
+      hash = list[key]
       location = hash[:longitude] + ',' + hash[:latitude]
       count = 0
       while found.key?(location)
