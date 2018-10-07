@@ -18,14 +18,14 @@
  *= require rails_bootstrap_forms
 */
 
-tr.info1  {font: 8.5px Verdana; }
-th.infoheader {font: 8.5px Verdana; font-weight: bold;}
-td.infoheader {font: 8.5px Verdana; font-weight: bold;}
-td.info1 {font: 8.5px Verdana;}
-td.DUESOON {font: 8.5px Verdana; color: #007f00;}
-td.SKIPPED {font: 8.5px Verdana; color: #0000ff; font-weight: bold}
-td.IN {font: 8.5px Verdana; color: #0000ff;}
-td.OUT {font: 8.5px Verdana; color: #0000ff;}
-td.DNS {font: 8.5px Verdana; color: #ff0000;}
-td.WD {font: 8.5px Verdana; color: #ff0000;}
-td.BLANK {font: 8.5px Verdana; color: #000000;}
+tr.info1  {font: 10.0px Verdana; }
+th.infoheader {font: 10.0px Verdana; font-weight: bold;}
+td.infoheader {font: 10.0px Verdana; font-weight: bold;}
+td.info1 {font: 10.0px Verdana;}
+td.DUESOON {font: 10.0px Verdana; color: #007f00;}
+td.SKIPPED {font: 10.0px Verdana; color: #0000ff; font-weight: bold}
+td.IN {font: 10.0px Verdana; color: #0000ff;}
+td.OUT {font: 10.0px Verdana; color: #0000ff;}
+td.DNS {font: 10.0px Verdana; color: #ff0000;}
+td.WD {font: 10.0px Verdana; color: #ff0000;}
+td.BLANK {font: 10.0px Verdana; color: #000000;}
