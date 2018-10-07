@@ -13,6 +13,9 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v2017 do
+      get 'canoes/locations', to: 'canoes#locations'
+      get 'canoes/locations/:show_checkpoints/:canoes/:uniq', \
+        to: 'canoes#locations'
       get 'canoes/finish-info', to: 'canoes#finish_info'
       get 'status/types', to: 'status#types'
       post 'status/non-starters/complete/set', to: 'status#setComplete'
@@ -47,6 +50,7 @@ Rails.application.routes.draw do
   get 'home' => 'checkpoint#overview', as: 'home'
   get 'change_password' => 'sessions#change_password', as: 'change_password'
   post 'change_password' => 'sessions#change_password_attempt', as: nil
+  get '/canoe_locations', to: 'crafts#location', as: 'canoe_locations'
   # resources :crafts
   # resources :distances
   # resources :data

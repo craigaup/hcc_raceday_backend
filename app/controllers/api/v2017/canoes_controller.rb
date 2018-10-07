@@ -235,4 +235,28 @@ class Api::V2017::CanoesController < Api::V2017::ApplicationController
     end
     render json: output.to_json, status: 200
   end
+
+  def locations
+    precision = 4
+
+    canoe = 'all'
+    canoe = params['canoes'].split(',') if !params['canoes'].nil? \
+      && params['canoes'] =~ /^(\d+,)+/
+
+    uniq = true
+    uniq = false if !params['uniq'].nil? \
+      && params['uniq'].to_s.casecmp('false').zero?
+
+    show_checkpoints = true
+    show_checkpoints = false if !params['checkpoints'].nil? \
+      && params['checkpoints'].to_s.casecmp('false').zero?
+
+    output = if uniq
+              Location.uniq_location(precision, canoe, show_checkpoints)
+            else
+              Location.show(precision, canoe, show_checkpoints)
+            end
+
+    render json: output.to_json, status: 200
+  end
 end

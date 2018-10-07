@@ -1,13 +1,49 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  number: 1
-  latitude: MyString
-  longitude: MyString
-  time: 2018-10-06 22:08:58
+100St:
+  number: 100
+  latitude: '-33.6022333333333'
+  longitude: '150.8198'
+  time: <%= DateTime.now.in_time_zone - 2.hours %>
 
-two:
-  number: 1
-  latitude: MyString
-  longitude: MyString
-  time: 2018-10-06 22:08:58
+100A:
+  number: 100
+  latitude: '-33.5607'
+  longitude: '150.890216666667'
+  time: <%= DateTime.now.in_time_zone - 1.hour %>
+
+100B:
+  number: 100
+  latitude: '-33.51255'
+  longitude: '150.89825'
+  time: <%= DateTime.now.in_time_zone %>
+
+101St:
+  number: 101
+  latitude: '-33.6022333333333'
+  longitude: '150.8198'
+  time: <%= DateTime.now.in_time_zone - 1.hour %>
+
+101A:
+  number: 101
+  latitude: '-33.5607'
+  longitude: '150.890216666667'
+  time: <%= DateTime.now.in_time_zone - 2.minutes %>
+
+102St:
+  number: 102
+  latitude: '-33.6022333333333'
+  longitude: '150.8198'
+  time: <%= DateTime.now.in_time_zone - 1.hour %>
+
+103St:
+  number: 103
+  latitude: '-33.6022333333333'
+  longitude: '150.8198'
+  time: <%= DateTime.now.in_time_zone %>
+
+104St:
+  number: 104
+  latitude: '-33.6022333333333'
+  longitude: '150.8198'
+  time: <%= DateTime.now.in_time_zone %>

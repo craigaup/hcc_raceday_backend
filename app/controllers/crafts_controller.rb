@@ -61,6 +61,43 @@ class CraftsController < ApplicationController
     end
   end
 
+  def location
+    format = 'osm'
+    canoe = 'all'
+    precision = 4
+    
+    @title = if canoe.casecmp('all').zero?
+               'All Canoe Locations'
+             else
+               "Canoe #{ canoe }"
+             end
+    
+    @list = Location.uniq_location(precision, canoe, true)
+    sum_longitude = 0.0
+    sum_latitude = 0.0
+
+    count = 0
+    @list.each do |number, hash|
+      count += 1
+      sum_longitude += hash[:longitude].to_f
+      sum_latitude += hash[:latitude].to_f
+    end
+
+    if sum_longitude == 0.0
+      @map_longitude = '-33.505'
+    else
+      @map_longitude = (sum_longitude / count).round(precision).to_s
+    end
+
+    if sum_latitude == 0.0
+      @map_latitude = '151.15'
+    else
+      @map_latitude = (sum_latitude / count).round(precision).to_s
+    end
+
+    render 'location', :layout => false
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_craft
