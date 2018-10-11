@@ -79,3 +79,4 @@ group :production do
 end
 
 gem 'json'
+gem 'sprockets', '~>3.7.2'
