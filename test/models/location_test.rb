@@ -113,12 +113,12 @@ class LocationTest < ActiveSupport::TestCase
                103 => { time: four.time,
                         latitude: four.latitude.to_f.round(precision).to_s,
                         longitude: (four.longitude.to_f.round(precision) \
-                                    + accuracy.to_f).to_s  },
+                                    + accuracy.to_f).round(precision).to_s  },
                104 => { time: five.time,
                         latitude: (five.latitude.to_f.round(precision) \
-                                   + accuracy.to_f).to_s,
+                                   + accuracy.to_f).round(precision).to_s,
                         longitude: (five.longitude.to_f.round(precision) \
-                                   ).to_s
+                                   ).round(precision).to_s
                       }
              }
 
