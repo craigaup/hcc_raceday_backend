@@ -248,8 +248,8 @@ class Api::V2017::CanoesController < Api::V2017::ApplicationController
       && params['uniq'].to_s.casecmp('false').zero?
 
     show_checkpoints = true
-    show_checkpoints = false if !params['checkpoints'].nil? \
-      && params['checkpoints'].to_s.casecmp('false').zero?
+    show_checkpoints = false if !params['show_checkpoints'].nil? \
+      && params['show_checkpoints'].to_s.casecmp('false').zero?
 
     output = if uniq
               Location.uniq_location(precision, canoe, show_checkpoints)
