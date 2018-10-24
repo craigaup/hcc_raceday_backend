@@ -23,12 +23,12 @@ class CheckpointController < ApplicationController
     @page_title = 'Checkpoint ' + checkpointInfo.longname
     display = Craft.displayCheckpointInfo(checkpointInfo.longname)
     
-    @min = 1000
-    @max = 0
-    display.keys.each do |num|
-      @min = num if num < @min
-      @max = num if num > @max
-    end
+    @min = Craft.findMinCanoeNumber
+    @max = Craft.findMaxCanoeNumber
+    #display.keys.each do |num|
+    #  @min = num if num < @min
+    #  @max = num if num > @max
+    #end
 
     @checkpoint = checkpointInfo.longname
 
