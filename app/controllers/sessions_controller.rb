@@ -11,7 +11,15 @@ class SessionsController < ApplicationController
     if authorized_user
       session[:user_id] = authorized_user.id
       flash[:notice] = "You have logged in as #{authorized_user.username}"
-      redirect_to(:action => 'overview', :controller => 'checkpoint')
+      if !session.key?(:previous_url) || session[:previous_url].nil? \
+          && session[:previous_url].empty?
+        redirect_to(:action => 'overview', :controller => 'checkpoint')
+      else
+        redirect_to session[:previous_url]
+        session[:previous_url] = nil
+      end
+      
+      return
     else
       flash[:notice] = "Invalid Username or Password"
       flash[:color]= "invalid"
