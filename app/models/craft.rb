@@ -753,6 +753,9 @@ class Craft < ApplicationRecord
     longitude = Location.convert(checkpoint.longitude)
     latitude = Location.convert(checkpoint.latitude)
     
+    return if Datum.returnValue('setlocationatcheckpoint').nil? \
+        || Datum.returnValue('setlocationatcheckpoint') == 'false'
+
     Location.create(number: number, latitude: latitude, longitude: longitude,
                     time: DateTime.now.in_time_zone)
 
