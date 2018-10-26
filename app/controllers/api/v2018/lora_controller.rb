@@ -7,15 +7,37 @@ class Api::V2018::LoraController < Api::V2018::ApplicationController
 
     data = JSON.parse(request.raw_post)["DevEUI_uplink"]
 
-    data["payload_hex"] =~ /^(..)(..)(....)(..)(..)(......)(......)(......)$/
     device = data["DevEUI"]
     lrresp = data['Lrrs']['Lrr'][0]['LrrESP']
     time = data["Time"].to_datetime.in_time_zone
-    temperature = (convert_hex_to_signed_int($3) * 0.1).round(1)
-    latitude = (convert_hex_to_signed_int($6) * 0.0001).round(4)
-    longitude = (convert_hex_to_signed_int($7) * 0.0001).round(4)
-    altitude = (convert_hex_to_signed_int($8) * 0.01).round(2)
-    
+    temperature = ''
+    latitude = ''
+    longitude = ''
+    altitude = ''
+
+    # data["payload_hex"] =~ /^(..)(..)(....)(..)(..)(......)(......)(......)$/
+
+    while (!data['payload_hex'].empty?) do
+      if data['payload_hex'] =~ /^0d67(....)(.*)$/
+        temperature = (convert_hex_to_signed_int($1) * 0.1).round(1)
+        data['payload_hex'] = $2
+      elsif data['payload_hex'] =~ /^1488(......)(......)(......)(.*)$/
+        latitude = (convert_hex_to_signed_int($1) * 0.0001).round(4)
+        longitude = (convert_hex_to_signed_int($2) * 0.0001).round(4)
+        altitude = (convert_hex_to_signed_int($3) * 0.01).round(2)
+        data['payload_hex'] = $4
+      else
+        data['payload_hex'] = ''
+      end
+    end
+
+    if latitude.to_s.empty? || longitude.to_s.empty?
+      render json: ['Success'], status: 200
+      return
+    end
+
+    temperature = nil if temperature.empty?
+
     number = LoraDeviceMapping.find_by(device_registration: device)&.number
 
     Location.create(number: number, latitude: latitude, longitude: longitude,
