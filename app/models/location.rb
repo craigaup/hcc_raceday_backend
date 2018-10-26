@@ -25,6 +25,7 @@ class Location < ApplicationRecord
     end
 
     list.each do |l|
+      next if l.number.nil?
       next unless l.time.year == year
       if data.key?(l.number)
         if data[l.number][:time] < l.time
@@ -33,12 +34,14 @@ class Location < ApplicationRecord
             .round(precision).to_s
           data[l.number][:latitude] = Location.convert(l.latitude).to_f\
             .round(precision).to_s
+          data[l.number][:temperature] = l.temperature.to_f.to_s
         end
       else
         data[l.number] = {}
         data[l.number][:time] = l.time
         data[l.number][:longitude] = l.longitude.to_f.round(precision).to_s
         data[l.number][:latitude] = l.latitude.to_f.round(precision).to_s
+        data[l.number][:temperature] = l.temperature.to_f.to_s
       end
     end
     data
@@ -90,6 +93,7 @@ class Location < ApplicationRecord
 
     data 
   end
+
   private
   def self.convert(degree)
     converted = degree
