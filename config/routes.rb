@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  #resources :lora_device_mappings
   namespace :api do
     namespace :v2018 do
       get 'lora/send', to: 'lora#sendData'

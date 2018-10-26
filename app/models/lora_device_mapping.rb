@@ -1,0 +1,2 @@
+class LoraDeviceMapping < ApplicationRecord
+end

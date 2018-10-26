@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Lora Device Mappings</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Device registration</th>
+      <th>Number</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @lora_device_mappings.each do |lora_device_mapping| %>
+      <tr>
+        <td><%= lora_device_mapping.device_registration %></td>
+        <td><%= lora_device_mapping.number %></td>
+        <td><%= link_to 'Show', lora_device_mapping %></td>
+        <td><%= link_to 'Edit', edit_lora_device_mapping_path(lora_device_mapping) %></td>
+        <td><%= link_to 'Destroy', lora_device_mapping, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Lora Device Mapping', new_lora_device_mapping_path %>

@@ -1,0 +1,2 @@
+module LoraDeviceMappingsHelper
+end

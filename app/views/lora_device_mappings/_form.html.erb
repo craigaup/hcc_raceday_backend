@@ -1,0 +1,27 @@
+<%= form_with(model: lora_device_mapping, local: true) do |form| %>
+  <% if lora_device_mapping.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(lora_device_mapping.errors.count, "error") %> prohibited this lora_device_mapping from being saved:</h2>
+
+      <ul>
+      <% lora_device_mapping.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :device_registration %>
+    <%= form.text_field :device_registration, id: :lora_device_mapping_device_registration %>
+  </div>
+
+  <div class="field">
+    <%= form.label :number %>
+    <%= form.number_field :number, id: :lora_device_mapping_number %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

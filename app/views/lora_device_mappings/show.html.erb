@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Device registration:</strong>
+  <%= @lora_device_mapping.device_registration %>
+</p>
+
+<p>
+  <strong>Number:</strong>
+  <%= @lora_device_mapping.number %>
+</p>
+
+<%= link_to 'Edit', edit_lora_device_mapping_path(@lora_device_mapping) %> |
+<%= link_to 'Back', lora_device_mappings_path %>
