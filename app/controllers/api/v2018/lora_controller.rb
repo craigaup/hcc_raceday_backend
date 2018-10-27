@@ -19,12 +19,12 @@ class Api::V2018::LoraController < Api::V2018::ApplicationController
 
     while (!data['payload_hex'].empty?) do
       if data['payload_hex'] =~ /^0d67(....)(.*)$/
-        temperature = (convert_hex_to_signed_int($1) * 0.1).round(1)
+        temperature = (convert_hex_to_signed_int($1) * 0.1).round(1).to_s
         data['payload_hex'] = $2
       elsif data['payload_hex'] =~ /^1488(......)(......)(......)(.*)$/
-        latitude = (convert_hex_to_signed_int($1) * 0.0001).round(4)
-        longitude = (convert_hex_to_signed_int($2) * 0.0001).round(4)
-        altitude = (convert_hex_to_signed_int($3) * 0.01).round(2)
+        latitude = (convert_hex_to_signed_int($1) * 0.0001).round(4).to_s
+        longitude = (convert_hex_to_signed_int($2) * 0.0001).round(4).to_s
+        altitude = (convert_hex_to_signed_int($3) * 0.01).round(2).to_s
         data['payload_hex'] = $4
       else
         data['payload_hex'] = ''
@@ -36,7 +36,7 @@ class Api::V2018::LoraController < Api::V2018::ApplicationController
       return
     end
 
-    temperature = nil if temperature.empty?
+    temperature = nil if temperature.to_s.empty?
 
     number = LoraDeviceMapping.find_by(device_registration: device)&.number
 
