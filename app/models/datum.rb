@@ -3,11 +3,13 @@ class Datum < ApplicationRecord
 
   def self.statusList
     [
-      {shortname: 'IN', longname: 'IN'},
-      {shortname: 'OUT', longname: 'OUT'},
-      {shortname: 'WD', longname: 'Withdrawn'},
-      {shortname: 'DNS', longname: 'Non-Starter'}
+      {shortname: 'IN', longname: 'IN', admin: false},
+      {shortname: 'OUT', longname: 'OUT', admin: false},
+      {shortname: 'WD', longname: 'Withdrawn', admin: false},
+      {shortname: 'DNS', longname: 'Non-Starter', admin: false},
+      {shortname: 'DISQ', longname: 'Disqualified', admin: true}
     ]
+
   end
 
   def self.returnValue(key, year = DateTime.now.year)

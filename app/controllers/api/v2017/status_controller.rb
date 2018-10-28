@@ -3,7 +3,8 @@ class Api::V2017::StatusController < Api::V2017::ApplicationController
   before_action :must_be_race_admin, only: [:set_complete]
 
   def types
-    list = Datum.statusList
+    list = Datum.statusList.select {|s| s unless s[:admin]}\
+      .map{|s| {shortname: s[:shortname], longname: s[:longname]}}
     render json: list, status: 200
   end
 
