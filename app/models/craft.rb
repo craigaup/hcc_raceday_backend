@@ -202,7 +202,8 @@ class Craft < ApplicationRecord
           data[checkpointName][number]['IN'].nil?
       end
 
-      if canoe.status == 'WD' || canoe.status == 'DNS'
+      if canoe.status == 'WD' || canoe.status == 'DNS' \
+          || canoe.status == 'DISQ'
         myDistance = mapCheckpoint[canoe.checkpoint_id]&.distance.to_f
         mapCheckpoint.each do |id, checkpoint|
           next if checkpoint.nil?
@@ -385,11 +386,16 @@ class Craft < ApplicationRecord
                                           'time' => 'DNS',
                                           'overdue' => false
         }
+      elsif tmpdata.status == 'DISQ'
+        returnData[canoeNumber]['IN'] = { 'status' => 'DISQ',
+                                          'time' => 'DISQ',
+                                          'overdue' => false
+        }
       elsif tmpdata.status == 'WD'
         returnData[canoeNumber]['IN'] = { 'status' => 'WD',
                                           'time' => 'WD ' \
                                           + (tmpdata.checkpoint&.checkpoint)\
-          .to_s,
+          .to_s + ' @ ' + getTimeFormat(tmpdata.time).to_s,
                                           'overdue' => false
         }
       elsif tmpdata.checkpoint_id == myCheckpointID
