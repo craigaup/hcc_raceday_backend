@@ -82,3 +82,5 @@ gem 'json'
 gem 'sprockets'#, '~>3.7.2'
 
 gem 'rack', '>= 2.0.6'
+
+gem 'responders', '~> 2.4'
