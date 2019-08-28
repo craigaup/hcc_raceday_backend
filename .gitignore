@@ -31,3 +31,4 @@ db/seeds/.userinitialpass.rb
 
 server_variables.sh
 lora/
+lora/*
