@@ -1,4 +1,4 @@
-lora_devices = [
+@lora_devices = [
   {device_registration: "947EB900000FFE00", number: 100},
   {device_registration: "947EB900000FFE01", number: 101},
   {device_registration: "947EB900000FFE02", number: 102},
