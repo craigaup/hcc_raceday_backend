@@ -46,23 +46,46 @@ distances.each do |checkpoint, distance|
   tmpchkpt = Distance.find_by(checkpoint: checkpoint,
                            year: DateTime.now.in_time_zone.year)
   longname = checkpointNames[checkpoint]
-  print "INFO: Creating checkpoint #{checkpoint} at distance #{distance}\n"
   duesoon = ''
   duesoon = duesoonFrom[checkpoint] if duesoonFrom.key?(checkpoint)
   lat = latlong[checkpoint][0]
   long = latlong[checkpoint][1]
   if tmpchkpt.nil? then
+    print "INFO: Creating checkpoint #{checkpoint} at distance #{distance}\n"
     Distance.create(checkpoint: checkpoint,
                     year: DateTime.now.in_time_zone.year,
                     distance: distance, longname: longname,
                     duesoonfrom: duesoon, latitude: lat, longitude: long)
   else
-    tmpchkpt.checkpoint = checkpoint
-    tmpchkpt.distance = distance
-    tmpchkpt.longname = longname
-    tmpchkpt.duesoonfrom = duesoon
-    tmpchkpt.latitude = lat
-    tmpchkpt.longitude = long
-    tmpchkpt.save
+    updated = false
+    if tmpchkpt.distance != distance
+      tmpchkpt.distance = distance
+      updated = true
+    end
+
+    if tmpchkpt.longname != longname
+      tmpchkpt.longname = longname
+      updated = true
+    end
+
+    if tmpchkpt.duesoonfrom != duesoon
+      tmpchkpt.duesoonfrom = duesoon
+      updated = true
+    end
+
+    if tmpchkpt.latitude != lat
+      tmpchkpt.latitude = lat
+      updated = true
+    end
+
+    if tmpchkpt.longitude != long
+      tmpchkpt.longitude = long
+      updated = true
+    end
+
+    if updated
+      print "INFO: Updating checkpoint #{checkpoint} at distance #{distance}\n"
+      tmpchkpt.save
+    end
   end
 end

@@ -37,10 +37,10 @@ userList.each do |username|
 end
 
 raceadminList.each do |username|
-  print "INFO: Making sure #{username} is a raceadmin\n"
   user =  User.find_by(username: username)
 
   if Raceadmin.where('user_id = ? AND year = ?', user.id,DateTime.now.year.to_s) == nil then
+    print "INFO: Making sure #{username} is a raceadmin\n"
     Raceadmin.create(year: DateTime.now.year, user: user)
   end
 end

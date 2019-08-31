@@ -1,0 +1,10 @@
+lora_devices = [
+  {device_registration: "947EB900000FFE00", number: 100},
+  {device_registration: "947EB900000FFE01", number: 101},
+  {device_registration: "947EB900000FFE02", number: 102},
+  {device_registration: "947EB900000FFE03", number: 103},
+  {device_registration: "947EB900000FFE04", number: 104},
+  {device_registration: "947EB900000FFE05", number: 105},
+  {device_registration: "947EB900000FFE06", number: 106},
+  {device_registration: "947EB900000FFE07", number: 107},
+]

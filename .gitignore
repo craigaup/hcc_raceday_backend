@@ -28,7 +28,9 @@ vendor/bundle
 
 public/assets
 db/seeds/.userinitialpass.rb
+db/seeds/.lora_devices.rb
 
 server_variables.sh
 lora/
 lora/*
+
