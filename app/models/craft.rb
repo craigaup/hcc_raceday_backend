@@ -532,7 +532,7 @@ class Craft < ApplicationRecord
     nowtime = DateTime.now.in_time_zone.to_i
     lastdata.each do |num,canoe|
       checkpoint = mapCheckpoint[canoe.checkpoint_id]
-      count[checkpoint.longname] = {'IN' => 0, 'OUT' => 0, 'WD' => 0} unless \
+      count[checkpoint.longname] = {'IN' => 0, 'OUT' => 0, 'WD' => 0, 'DISQ' => 0} unless \
         count.key?(checkpoint.longname)
       status = canoe.status
       status = 'WD' if status == 'DNS'
