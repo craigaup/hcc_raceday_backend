@@ -39,7 +39,7 @@ end
 raceadminList.each do |username|
   user =  User.find_by(username: username)
 
-  if Raceadmin.where('user_id = ? AND year = ?', user.id,DateTime.now.year.to_s) == nil then
+  if Raceadmin.where('user_id = ? AND year = ?', user.id,DateTime.now.year.to_s).empty? then
     print "INFO: Making sure #{username} is a raceadmin\n"
     Raceadmin.create(year: DateTime.now.year, user: user)
   end
