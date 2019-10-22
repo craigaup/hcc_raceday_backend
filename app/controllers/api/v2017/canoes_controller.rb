@@ -25,6 +25,14 @@ class Api::V2017::CanoesController < Api::V2017::ApplicationController
     canoeinfo = params.permit(:number, :status, :date_time, :checkpoint)
     newcraft = Craft.new
     newcraft.number = canoeinfo[:number]
+    unless Craft.valid_canoe_number(newcraft.number)
+      render json: {
+                      error: "NOT_FOUND",
+                      message: "Canoe not found"
+                    }, status: 404
+      return
+    end
+
     newcraft.status = canoeinfo[:status]
     newcraft.time = canoeinfo[:date_time]
     checkpointName = canoeinfo[:checkpoint]

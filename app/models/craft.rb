@@ -32,6 +32,13 @@ class Craft < ApplicationRecord
     maxCanoeNumber.to_i
   end
   
+  def self.valid_canoe_number?(number, year = DateTime.now.in_time_zone.year)
+    minCanoeNumber = Craft.findMinCanoeNumber(year.to_i).to_i
+    maxCanoeNumber = Craft.findMaxCanoeNumber(year.to_i).to_i
+
+    minCanoeNumber <= number.to_i && number.to_i <= maxCanoeNumber
+  end
+
   def self.getFieldInfo(interval = 'ALL', year = DateTime.now.year)
     lastseen = {}
 
