@@ -20,21 +20,36 @@ class LocationTest < ActiveSupport::TestCase
 
     precision = 4
 
-    output = { 100 => { time: one.time,
-                        latitude: one.latitude.to_f.round(precision).to_s,
-                        longitude: one.longitude.to_f.round(precision).to_s },
-               101 => { time: two.time,
-                        latitude: two.latitude.to_f.round(precision).to_s,
-                        longitude: two.longitude.to_f.round(precision).to_s },
-               102 => { time: three.time,
-                        latitude: three.latitude.to_f.round(precision).to_s,
-                        longitude: three.longitude.to_f.round(precision).to_s },
-               103 => { time: four.time,
-                         latitude: four.latitude.to_f.round(precision).to_s,
-                         longitude: four.longitude.to_f.round(precision).to_s },
-               104 => { time: five.time,
-                         latitude: five.latitude.to_f.round(precision).to_s,
-                         longitude: five.longitude.to_f.round(precision).to_s }
+    output = { 100 => {
+                 time: one.time,
+                 latitude: one.latitude.to_f.round(precision).to_s,
+                 longitude: one.longitude.to_f.round(precision).to_s,
+                 temperature: '0.0',
+               },
+               101 => {
+                 time: two.time,
+                 latitude: two.latitude.to_f.round(precision).to_s,
+                 longitude: two.longitude.to_f.round(precision).to_s,
+                 temperature: '0.0',
+               },
+               102 => {
+                 time: three.time,
+                 latitude: three.latitude.to_f.round(precision).to_s,
+                 longitude: three.longitude.to_f.round(precision).to_s,
+                 temperature: '0.0',
+               },
+               103 => {
+                 time: four.time,
+                 latitude: four.latitude.to_f.round(precision).to_s,
+                 longitude: four.longitude.to_f.round(precision).to_s,
+                 temperature: '0.0',
+               },
+               104 => {
+                 time: five.time,
+                 latitude: five.latitude.to_f.round(precision).to_s,
+                 longitude: five.longitude.to_f.round(precision).to_s,
+                 temperature: '0.0',
+               }
              }
 
     assert_equal output, Location.show(precision, 'ALL')

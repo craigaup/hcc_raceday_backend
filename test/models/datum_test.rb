@@ -24,10 +24,11 @@ class DatumTest < ActiveSupport::TestCase
 
   test 'self.statusList' do
     output = [
-      {shortname: 'IN', longname: 'IN'},
-      {shortname: 'OUT', longname: 'OUT'},
-      {shortname: 'WD', longname: 'Withdrawn'},
-      {shortname: 'DNS', longname: 'Non-Starter'}
+      {shortname: 'IN', longname: 'IN', admin: false},
+      {shortname: 'OUT', longname: 'OUT', admin: false},
+      {shortname: 'WD', longname: 'Withdrawn', admin: true},
+      {shortname: 'DNS', longname: 'Non-Starter', admin: true},
+      {shortname: 'DISQ', longname: 'Disqualified', admin: true},
     ]
 
     assert_equal output, Datum.statusList

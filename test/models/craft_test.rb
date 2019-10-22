@@ -39,11 +39,50 @@ class CraftTest < ActiveSupport::TestCase
   test 'self.findMaxCanoeNumber' do
     assert Craft.findMaxCanoeNumber, 500
     
-    Datum.setValue('firstcanoenumber', '501', 2017)
+    Datum.setValue('lastcanoenumber', '501', 2017)
     assert Craft.findMaxCanoeNumber(2017), 501
 
-    Datum.setValue('firstcanoenumber', '501', DateTime.now.in_time_zone.year)
+    Datum.setValue('lastcanoenumber', '501', DateTime.now.in_time_zone.year)
     assert Craft.findMaxCanoeNumber, 501
+  end
+
+  test 'self.valid_canoenumber?' do
+    Datum.setValue('firstcanoenumber', '102', 2017)
+    assert Craft.findMinCanoeNumber(2017), 102
+
+    Datum.setValue('lastcanoenumber', '502', 2017)
+    assert Craft.findMaxCanoeNumber(2017), 502
+
+    Datum.setValue('firstcanoenumber', '101', DateTime.now.in_time_zone.year)
+    assert Craft.findMinCanoeNumber, 101
+
+    Datum.setValue('lastcanoenumber', '501', DateTime.now.in_time_zone.year)
+    assert Craft.findMaxCanoeNumber, 501
+
+    # valid list - 2017
+    [102, 502, 302].each do |number|
+      assert Craft.valid_canoe_number?(number, '2017'), "#{number} should be valid"
+      assert Craft.valid_canoe_number?(number.to_s, '2017'), "#{number} should be valid as a string"
+    end
+
+    # invalid list - 2017
+    [101, 503, 800, 50].each do |number|
+      assert_not Craft.valid_canoe_number?(number, '2017'), "#{number} shouldn't be valid"
+      assert_not Craft.valid_canoe_number?(number.to_s, '2017'), "#{number} shouldn't be valid as a string"
+    end
+
+    # valid list - this year
+    [101, 501, 302].each do |number|
+      assert Craft.valid_canoe_number?(number), "#{number} should be valid"
+      assert Craft.valid_canoe_number?(number.to_s), "#{number} should be valid as a string"
+    end
+
+    # invalid list - this year
+    [100, 502, 800, 50].each do |number|
+      assert_not Craft.valid_canoe_number?(number), "#{number} shouldn't be valid"
+      assert_not Craft.valid_canoe_number?(number.to_s), "#{number} shouldn't be valid as a string"
+    end
+
   end
 
   test 'checkCanoeNumberValue and number must be a number' do
@@ -194,7 +233,7 @@ class CraftTest < ActiveSupport::TestCase
                               101=>crafts(:twoout)},
               "___averages"=>{},
               "___overdue"=>{100=>false, 101=>false},
-              "___count"=>{"Alpha"=>{"IN"=>0, "OUT"=>2, "WD"=>0}},
+              "___count"=>{"Alpha"=>{"IN"=>0, "OUT"=>2, "WD"=>0, 'DISQ' => 0}},
               "___orderedcheckpoints"=>{"Start"=>nil, "Alpha"=>"Start",
                                         "Bravo"=>"Alpha", "Charlie"=>"Bravo",
                                         "Delta"=>"Charlie", "Echo"=>"Delta",
@@ -206,6 +245,7 @@ class CraftTest < ActiveSupport::TestCase
                                         "Oscar"=>"November", "Papa"=>"Oscar",
                                         "Quebec"=>"Papa", "Sierra"=>"Quebec",
                                         "Tango"=>"Sierra", "Finish"=>"Tango"}}
+
     assert_equal output, Craft.getAllCheckpointHistory(nil)
   end
   test 'self.caclOverdue' do
