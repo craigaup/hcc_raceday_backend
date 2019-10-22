@@ -5,8 +5,8 @@ class Datum < ApplicationRecord
     [
       {shortname: 'IN', longname: 'IN', admin: false},
       {shortname: 'OUT', longname: 'OUT', admin: false},
-      {shortname: 'WD', longname: 'Withdrawn', admin: false},
-      {shortname: 'DNS', longname: 'Non-Starter', admin: false},
+      {shortname: 'WD', longname: 'Withdrawn', admin: true},
+      {shortname: 'DNS', longname: 'Non-Starter', admin: true},
       {shortname: 'DISQ', longname: 'Disqualified', admin: true}
     ]
 
