@@ -1,6 +1,6 @@
-namespace :read_non_starters_list do
+namespace :non_starters_list do
   desc 'Read Non Starters'
-  task :all => :environment do
+  task :load_json => :environment do
     filename = File.join('/tmp', 'nonstarters', 'nonstarters.json')
     if File.exist?(filename)
       json_text = File.readlines(filename).join
