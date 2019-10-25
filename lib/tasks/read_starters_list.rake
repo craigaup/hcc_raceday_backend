@@ -15,7 +15,7 @@ namespace :starters_list do
     starters_list.each do |number, time|
       time = time.to_datetime.in_time_zone
       puts "Setting Canoe #{number} as starting at #{time.hour}:#{time.min}"
-      Craft.create(number: c, 
+      Craft.create(number: number, 
                    year: DateTime.now.in_time_zone.year,
                    status: 'OUT',
                    time: time,
