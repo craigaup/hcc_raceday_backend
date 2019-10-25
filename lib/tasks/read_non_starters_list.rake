@@ -12,6 +12,7 @@ namespace :non_starters_list do
 
       if non_starters_list.key?('computerVersion') && !user.nil? && !checkpoint.nil?
         non_starters_list['computerVersion'].each do |c|
+          puts "Setting Canoe #{c} as non-starter"
           Craft.create(number: c, 
                        year: DateTime.now.in_time_zone.year,
                        status: 'DNS',
