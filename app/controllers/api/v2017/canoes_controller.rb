@@ -1,3 +1,5 @@
+require 'net/http'
+
 class Api::V2017::CanoesController < Api::V2017::ApplicationController
   before_action :authenticate_user,  only: [:add, :info, :set_last]
   before_action :must_be_race_admin, only: [:info, :set_last]

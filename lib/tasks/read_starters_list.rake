@@ -9,7 +9,8 @@ namespace :starters_list do
       starters_list = {}
     end
 
-    checkpoint = Distance.find_by(longname: 'Start')
+    checkpoint = Distance.find_by(longname: 'Start',
+                                  year: DateTime.now.in_time_zone.year)
     user = User.find_by(username: 'start')
 
     starters_list.each do |number, time|
